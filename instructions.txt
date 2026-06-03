@@ -1,0 +1,187 @@
+Build a professional homepage for Zara Maths based on this exact visual direction:
+
+Overall style:
+A warm, premium South African educational brand for children and parents. It must feel professional, trustworthy, friendly, and slightly safari/adventure themed. Not childish rainbow school design. Think modern educational startup + African bushveld storybook.
+
+Use this visual inspiration:
+- African bushveld / Karoo / savanna landscape
+- Warm orange soil
+- Blue sky
+- Acacia trees
+- Cream background
+- Bat-eared fox mascot
+- Rounded cards
+- Soft shadows
+- Friendly typography
+- Clean modern layout
+
+Brand:
+Name: Zara Maths
+Tagline: Learning made simple.
+Mascot: Zara, a cute bat-eared fox.
+Audience: South African parents of primary school children.
+Products: CAPS-aligned workbooks, test packs, exam preparation packs.
+Languages: Afrikaans and English.
+
+Color palette:
+Primary orange: #E85D04
+Deep green: #355E3B
+Soft green: #5F7F4F
+Cream background: #FFF8EE
+Warm beige: #F8E7D0
+Gold accent: #F4B942
+Text dark: #1F2D1F
+Muted text: #4B5563
+White cards: #FFFFFF
+
+Fonts:
+Use Google Fonts:
+- Headings: Fredoka or Baloo 2
+- Body: Nunito or Poppins
+Use large rounded headings, friendly but still professional.
+
+Homepage layout:
+
+1. Header / Navbar
+- Left: Zara Maths logo with small fox icon
+- Nav links: Home, About Zara, Our Products, For Parents, Contact
+- Right: cart icon and “My Account” orange rounded button
+- Transparent/cream header over hero
+- Keep spacing generous
+
+2. Hero Section
+Full-width hero with split composition:
+- Left side: cream/white fade panel with text
+- Right side: African savanna background with cute bat-eared fox sitting in foreground
+Hero text:
+ZARA
+MATHS
+Learning made simple.
+
+Subtext:
+CAPS-aligned workbooks, tests and exam preparation packs for Grades R–7.
+Created by experienced South African teachers.
+
+CTA button:
+Explore Our Products →
+
+Design notes:
+- “ZARA” in orange
+- “MATHS” in deep green
+- Very large playful bold typography
+- Use orange underline accent under tagline
+- Background should feel like warm African bushveld with acacia trees and red-orange soil
+
+3. Product Cards Section
+Three large rounded cards with icons:
+Card 1:
+Title: WORKBOOKS
+Text: Clear explanations and lots of practice to build confidence. Afrikaans & English.
+Link: View Workbooks →
+
+Card 2:
+Title: TEST PACKS
+Text: Topic tests and assessments to track progress and improve results.
+Link: View Test Packs →
+
+Card 3:
+Title: EXAM PREPARATION
+Text: Complete exam preparation packs to help learners achieve their best.
+Link: View Exam Packs →
+
+Cards:
+- white / cream cards
+- rounded corners 24px
+- soft shadows
+- green headings
+- orange links
+- simple line icons
+
+4. Trust Section
+Large rounded horizontal banner with bushveld background image faded behind content.
+Left side title:
+WHY PARENTS
+TRUST ZARA MATHS
+
+Bullet list with icons:
+- CAPS aligned
+- Created by experienced teachers
+- Afrikaans & English
+- Printable at home
+
+Right side:
+Circular badge:
+MADE IN SOUTH AFRICA
+Include South African flag colors or small flag symbol.
+
+5. Meet Zara Section
+Rounded cream card.
+Left: cute fox mascot waving.
+Middle:
+Title: MEET ZARA
+Text:
+Zara is a curious bat-eared fox from the African bush who loves solving problems and learning new things. She’s here to help you every step of the way!
+
+Button:
+Read Zara’s Story →
+
+Right side:
+Simple doodles: star, pencil, open book, “2 + 2 = 4”
+
+6. Email Signup Strip
+Orange safari-style strip with subtle acacia silhouettes.
+Text:
+STAY UPDATED
+Be the first to know about new products, special offers and helpful tips.
+
+Email input + Subscribe button.
+
+7. Footer
+Deep green footer.
+Left: Zara Maths logo and tagline.
+Columns:
+Quick Links:
+Home
+About Zara
+Our Products
+For Parents
+Contact
+
+Help:
+FAQs
+Shipping & Delivery
+Refund Policy
+Terms & Conditions
+
+Follow Us:
+Facebook icon
+Instagram icon
+
+Footer text:
+© 2026 Zara Maths. All rights reserved.
+
+Technical requirements:
+- Use Next.js + Tailwind CSS.
+- Fully responsive.
+- Mobile-first.
+- Use reusable components:
+  Header
+  Hero
+  ProductCards
+  TrustSection
+  MeetZara
+  NewsletterSignup
+  Footer
+- Use placeholder images for now if needed, but structure the site so we can easily replace them with generated fox and savanna images.
+- Use rounded-2xl or rounded-3xl cards.
+- Use soft shadows, not harsh shadows.
+- Use hover effects on buttons and cards.
+- Keep the design very close to the provided mockup: warm safari background, fox mascot, orange/green palette, clean parent-friendly layout.
+
+Important:
+Do not overcomplicate.
+No login system yet.
+No payment system yet.
+No database yet.
+This is only the marketing homepage / coming soon landing page.
+Make it look polished enough to launch tomorrow.
