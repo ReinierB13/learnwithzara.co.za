@@ -81,31 +81,54 @@ function BulletIcon({ type }: { type: string }) {
 function WavingSouthAfricanFlag() {
   return (
     <svg
-      viewBox="0 0 96 60"
-      className="absolute left-1/2 top-[36px] h-[42px] w-[68px] -translate-x-1/2 drop-shadow-[0_2px_3px_rgba(36,76,45,0.25)]"
+      viewBox="0 0 120 80"
+      className="absolute left-1/2 top-[36px] h-[46px] w-[72px] -translate-x-1/2 drop-shadow-[0_3px_4px_rgba(36,76,45,0.24)]"
       aria-hidden="true"
     >
       <defs>
         <clipPath id="waving-sa-flag">
-          <path d="M5 9C21 2 33 15 49 9C65 3 78 7 91 11V50C76 45 65 38 49 45C33 52 20 40 5 48Z" />
+          <path d="M7 10C25 1 42 16 60 9C78 2 96 7 113 13V67C95 60 79 51 60 60C41 69 25 54 7 64Z" />
         </clipPath>
+        <linearGradient id="flag-wave-shadow" x1="7" x2="113" y1="0" y2="0">
+          <stop offset="0" stopColor="#000" stopOpacity="0.08" />
+          <stop offset="0.28" stopColor="#fff" stopOpacity="0.18" />
+          <stop offset="0.55" stopColor="#000" stopOpacity="0.09" />
+          <stop offset="0.82" stopColor="#fff" stopOpacity="0.16" />
+          <stop offset="1" stopColor="#000" stopOpacity="0.08" />
+        </linearGradient>
       </defs>
       <g clipPath="url(#waving-sa-flag)">
-        <path d="M0 0h96v60H0z" fill="#fff" />
-        <path d="M0 0h96v20H0z" fill="#E03C31" />
-        <path d="M0 40h96v20H0z" fill="#001489" />
-        <path d="M0 0 48 30 0 60" fill="none" stroke="#fff" strokeWidth="22" />
-        <path d="M0 0 48 30 0 60" fill="none" stroke="#FFB81C" strokeWidth="14" />
-        <path d="M0 0 48 30 0 60" fill="none" stroke="#007A4D" strokeWidth="8" />
-        <path d="M0 0 42 30 0 60z" fill="#000" />
-        <path d="M42 30h54" stroke="#fff" strokeWidth="24" />
-        <path d="M42 30h54" stroke="#007A4D" strokeWidth="14" />
+        <path d="M0 0h120v40H0z" fill="#DE3831" />
+        <path d="M0 40h120v40H0z" fill="#002395" />
+        <path
+          d="M0 0 48 40 120 40M0 80 48 40"
+          fill="none"
+          stroke="#fff"
+          strokeWidth="28"
+          strokeLinejoin="miter"
+        />
+        <path
+          d="M0 0 48 40 120 40M0 80 48 40"
+          fill="none"
+          stroke="#007A4D"
+          strokeWidth="16"
+          strokeLinejoin="miter"
+        />
+        <path
+          d="M0 0 42 40 0 80"
+          fill="none"
+          stroke="#FFB612"
+          strokeWidth="18"
+          strokeLinejoin="miter"
+        />
+        <path d="M0 10 38 40 0 70Z" fill="#000" />
+        <path d="M0 0h120v80H0z" fill="url(#flag-wave-shadow)" />
       </g>
       <path
-        d="M5 9C21 2 33 15 49 9C65 3 78 7 91 11V50C76 45 65 38 49 45C33 52 20 40 5 48Z"
+        d="M7 10C25 1 42 16 60 9C78 2 96 7 113 13V67C95 60 79 51 60 60C41 69 25 54 7 64Z"
         fill="none"
         stroke="#244C2D"
-        strokeWidth="1.8"
+        strokeWidth="2.2"
       />
     </svg>
   );
