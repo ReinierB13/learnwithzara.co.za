@@ -109,6 +109,15 @@ export default function Footer() {
                   <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
                 </svg>
               </a>
+              <a
+                href="#"
+                aria-label="X"
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-green-deep transition-colors hover:bg-white"
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
+                  <path d="M14.1 10.5 21.5 2h-1.8l-6.4 7.4L8.2 2H2.3l7.8 11.3L2.3 22h1.8l6.8-7.8 5.4 7.8h5.9l-8.1-11.5Zm-2.4 2.8-.8-1.1L4.6 3.3h2.9l5 7.1.8 1.1 6.6 9.4H17l-5.3-7.6Z" />
+                </svg>
+              </a>
             </div>
           </div>
         </div>
