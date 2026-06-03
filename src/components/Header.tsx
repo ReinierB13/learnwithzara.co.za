@@ -28,7 +28,7 @@ export default function Header() {
         scrolled ? "bg-cream/92 shadow-sm backdrop-blur-md" : "bg-transparent"
       }`}
     >
-      <div className="mx-auto flex max-w-[1180px] items-center justify-between px-8 py-5">
+      <div className="mx-auto flex max-w-[1180px] items-center gap-8 px-8 py-5">
         <Link href="/" aria-label="Learn with Zara home" className="flex shrink-0 items-center">
           <span className="relative flex h-[70px] w-[70px] items-center justify-center overflow-hidden rounded-full bg-[#fff6e7] shadow-[0_6px_18px_rgba(61,38,11,0.12)]">
             <Image
@@ -59,7 +59,7 @@ export default function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-5">
+        <div className="ml-auto flex items-center gap-5">
           <button
             aria-label="Cart"
             className="relative hidden h-10 w-10 items-center justify-center text-green-deep transition-colors hover:text-orange md:flex"

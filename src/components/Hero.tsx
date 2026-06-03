@@ -12,11 +12,11 @@ export default function Hero() {
         className="object-cover object-center"
         priority
       />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,#fff8ee_0%,#fff8ee_26%,rgba(255,248,238,0.9)_33%,rgba(255,248,238,0.38)_45%,rgba(255,248,238,0)_61%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,#fff8ee_0%,#fff8ee_18%,rgba(255,248,238,0.92)_29%,rgba(255,248,238,0.42)_42%,rgba(255,248,238,0)_58%)]" />
       <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-cream to-transparent" />
 
-      <div className="relative z-10 mx-auto flex min-h-[548px] max-w-[1180px] items-center pl-20 pr-8 pt-[106px]">
-        <div className="w-full max-w-[420px] pb-8">
+      <div className="relative z-10 mx-auto flex min-h-[548px] max-w-[1180px] items-center px-8 pt-[106px]">
+        <div className="w-full max-w-[500px] pb-8">
           <h1 className="font-heading leading-[0.92]">
             <span className="block text-[78px] font-bold tracking-normal text-orange md:text-[82px]">
               LEARN
@@ -31,7 +31,7 @@ export default function Hero() {
           </p>
           <div className="mt-6 h-[3px] w-[104px] rounded-full bg-orange" />
 
-          <p className="mt-8 max-w-[375px] font-body text-[16px] font-semibold leading-[1.55] text-text-dark">
+          <p className="mt-8 max-w-[430px] font-body text-[16px] font-semibold leading-[1.55] text-text-dark">
             CAPS-aligned learning resources, practice packs and exam preparation
             for South African school learners.
             <br />
