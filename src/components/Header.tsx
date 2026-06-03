@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 
 const NAV_LINKS = [
@@ -23,76 +24,106 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-cream/95 backdrop-blur-sm shadow-sm" : "bg-transparent"
+      className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
+        scrolled ? "bg-cream/92 shadow-sm backdrop-blur-md" : "bg-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 shrink-0">
-          <span className="text-2xl">🦊</span>
-          <span className="font-heading font-bold text-xl leading-none">
-            <span className="text-orange">ZARA</span>
-            <br />
-            <span className="text-green-deep">MATHS</span>
+      <div className="mx-auto flex max-w-[1180px] items-center justify-between px-8 py-5">
+        <Link href="/" className="flex shrink-0 items-center gap-3">
+          <span className="relative flex h-[70px] w-[70px] items-center justify-center overflow-hidden rounded-full bg-[#fff6e7] shadow-[0_6px_18px_rgba(61,38,11,0.12)]">
+            <Image
+              src="/images/zara-cropped.png"
+              alt=""
+              width={72}
+              height={96}
+              className="absolute top-[-9px] h-[112px] w-auto max-w-none object-contain"
+              style={{ width: "auto" }}
+              priority
+            />
+          </span>
+          <span className="flex flex-col leading-none">
+            <span className="font-heading text-[37px] font-bold tracking-normal text-orange">
+              ZARA
+            </span>
+            <span className="-mt-1 font-heading text-[34px] font-bold tracking-normal text-green-soft">
+              MATHS
+            </span>
+            <span className="-mt-0.5 font-body text-[10px] font-extrabold text-green-deep">
+              Learning made simple.
+            </span>
           </span>
         </Link>
 
-        {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-6">
+        <nav className="hidden items-center gap-10 md:flex">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.label}
               href={link.href}
-              className="text-sm font-body font-semibold text-text-dark hover:text-orange transition-colors"
+              className={`relative font-body text-[15px] font-extrabold text-text-dark transition-colors hover:text-orange ${
+                link.label === "Home"
+                  ? "after:absolute after:-bottom-2 after:left-0 after:right-0 after:h-0.5 after:bg-orange"
+                  : ""
+              }`}
             >
               {link.label}
             </Link>
           ))}
         </nav>
 
-        {/* Right actions */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-5">
           <button
             aria-label="Cart"
-            className="hidden md:flex text-text-dark hover:text-orange transition-colors text-xl"
+            className="relative hidden h-10 w-10 items-center justify-center text-green-deep transition-colors hover:text-orange md:flex"
           >
-            🛒
+            <svg
+              viewBox="0 0 32 32"
+              fill="none"
+              className="h-8 w-8"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M5 6h3l3 15h13l3-10H11" />
+              <circle cx="13" cy="26" r="2" />
+              <circle cx="24" cy="26" r="2" />
+            </svg>
+            <span className="absolute -right-1 top-0 flex h-5 w-5 items-center justify-center rounded-full bg-orange text-[10px] font-extrabold text-white">
+              0
+            </span>
           </button>
           <Link
             href="#contact"
-            className="hidden md:inline-flex items-center px-4 py-2 rounded-full bg-orange text-white text-sm font-body font-semibold hover:bg-[#c94f03] transition-colors"
+            className="hidden items-center rounded-full bg-orange px-8 py-4 font-body text-[15px] font-extrabold text-white shadow-[0_10px_20px_rgba(233,91,11,0.22)] transition-colors hover:bg-[#cf4f08] md:inline-flex"
           >
             My Account
           </Link>
 
-          {/* Hamburger */}
           <button
-            className="md:hidden flex flex-col gap-1.5 p-1"
-            onClick={() => setMenuOpen((o) => !o)}
+            className="flex flex-col gap-1.5 p-1 md:hidden"
+            onClick={() => setMenuOpen((open) => !open)}
             aria-label="Toggle menu"
           >
             <span
-              className={`block w-6 h-0.5 bg-text-dark transition-transform ${menuOpen ? "rotate-45 translate-y-2" : ""}`}
+              className={`block h-0.5 w-6 bg-text-dark transition-transform ${menuOpen ? "translate-y-2 rotate-45" : ""}`}
             />
             <span
-              className={`block w-6 h-0.5 bg-text-dark transition-opacity ${menuOpen ? "opacity-0" : ""}`}
+              className={`block h-0.5 w-6 bg-text-dark transition-opacity ${menuOpen ? "opacity-0" : ""}`}
             />
             <span
-              className={`block w-6 h-0.5 bg-text-dark transition-transform ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`}
+              className={`block h-0.5 w-6 bg-text-dark transition-transform ${menuOpen ? "-translate-y-2 -rotate-45" : ""}`}
             />
           </button>
         </div>
       </div>
 
-      {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden bg-cream/95 backdrop-blur-sm border-t border-beige px-6 py-4 flex flex-col gap-4">
+        <div className="flex flex-col gap-4 border-t border-beige bg-cream/95 px-6 py-4 backdrop-blur-sm md:hidden">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.label}
               href={link.href}
-              className="text-sm font-body font-semibold text-text-dark hover:text-orange transition-colors"
+              className="font-body text-sm font-extrabold text-text-dark transition-colors hover:text-orange"
               onClick={() => setMenuOpen(false)}
             >
               {link.label}
@@ -100,7 +131,7 @@ export default function Header() {
           ))}
           <Link
             href="#contact"
-            className="inline-flex items-center justify-center px-4 py-2 rounded-full bg-orange text-white text-sm font-body font-semibold hover:bg-[#c94f03] transition-colors"
+            className="inline-flex items-center justify-center rounded-full bg-orange px-4 py-2 font-body text-sm font-extrabold text-white transition-colors hover:bg-[#c94f03]"
             onClick={() => setMenuOpen(false)}
           >
             My Account

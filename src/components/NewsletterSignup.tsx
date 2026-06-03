@@ -15,64 +15,49 @@ export default function NewsletterSignup() {
   }
 
   return (
-    <section className="relative py-16 px-6 overflow-hidden bg-orange">
-      {/* Background landscape at low opacity */}
+    <section id="contact" className="relative overflow-hidden bg-orange px-6 py-4">
       <Image
         src="/images/backgrounds/newsletter.png"
         alt=""
         fill
-        className="object-cover object-center opacity-10"
+        sizes="100vw"
+        className="object-cover object-center opacity-25 mix-blend-multiply"
         aria-hidden="true"
       />
 
-      {/* Acacia silhouettes — SVG */}
-      <svg
-        className="absolute bottom-0 left-0 opacity-15 pointer-events-none"
-        width="220"
-        height="160"
-        viewBox="0 0 220 160"
-        fill="#1F2D1F"
-        aria-hidden="true"
-      >
-        {/* Tree trunk left */}
-        <rect x="40" y="90" width="8" height="70" />
-        {/* Tree canopy left */}
-        <ellipse cx="44" cy="85" rx="38" ry="22" />
-        {/* Tree trunk right */}
-        <rect x="160" y="110" width="6" height="50" />
-        {/* Tree canopy right */}
-        <ellipse cx="163" cy="105" rx="28" ry="16" />
-      </svg>
-      <svg
-        className="absolute bottom-0 right-0 opacity-15 pointer-events-none"
-        width="220"
-        height="160"
-        viewBox="0 0 220 160"
-        fill="#1F2D1F"
-        aria-hidden="true"
-      >
-        <rect x="172" y="90" width="8" height="70" />
-        <ellipse cx="176" cy="85" rx="38" ry="22" />
-        <rect x="50" y="110" width="6" height="50" />
-        <ellipse cx="53" cy="105" rx="28" ry="16" />
-      </svg>
-
-      <div className="relative z-10 max-w-2xl mx-auto text-center">
-        <h2 className="font-heading font-bold text-3xl lg:text-4xl text-white mb-2">
-          STAY UPDATED
-        </h2>
-        <p className="font-body text-white/90 text-base mb-8">
-          Be the first to know about new products, special offers and helpful tips.
-        </p>
+      <div className="relative z-10 mx-auto flex max-w-[864px] flex-col items-center gap-5 md:flex-row">
+        <div className="flex flex-1 items-center gap-4 text-white">
+          <svg
+            viewBox="0 0 40 40"
+            fill="none"
+            className="h-8 w-8 shrink-0"
+            stroke="currentColor"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <rect x="6" y="10" width="28" height="20" rx="2" />
+            <path d="m7 12 13 10 13-10" />
+          </svg>
+          <div>
+            <h2 className="font-heading text-[22px] font-bold leading-none tracking-wide text-white">
+              STAY UPDATED
+            </h2>
+            <p className="mt-1 max-w-[360px] font-body text-[13px] font-bold leading-[1.35] text-white">
+              Be the first to know about new products, special offers and
+              helpful tips.
+            </p>
+          </div>
+        </div>
 
         {submitted ? (
-          <p className="font-body font-semibold text-white text-lg bg-white/20 rounded-full px-8 py-4 inline-block">
-            🦊 Thanks! We&apos;ll be in touch soon.
+          <p className="inline-block rounded-full bg-white/20 px-8 py-4 font-body text-base font-extrabold text-white">
+            Thanks! We&apos;ll be in touch soon.
           </p>
         ) : (
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
+            className="flex w-full max-w-[450px] overflow-hidden rounded-full bg-white shadow-[0_8px_18px_rgba(86,41,8,0.16)]"
           >
             <input
               type="email"
@@ -80,11 +65,11 @@ export default function NewsletterSignup() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Your email address"
-              className="flex-1 px-5 py-3 rounded-full bg-cream text-text-dark font-body text-sm placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-green-deep"
+              className="min-w-0 flex-1 bg-white px-7 py-4 font-body text-[13px] font-semibold text-text-dark placeholder:text-text-muted focus:outline-none"
             />
             <button
               type="submit"
-              className="px-6 py-3 rounded-full bg-green-deep text-white font-body font-semibold text-sm hover:bg-[#2a4d2f] transition-colors shrink-0"
+              className="shrink-0 rounded-full bg-green-deep px-8 py-4 font-body text-[14px] font-extrabold text-white transition-colors hover:bg-[#1b3d23]"
             >
               Subscribe
             </button>

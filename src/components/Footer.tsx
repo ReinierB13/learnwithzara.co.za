@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const QUICK_LINKS = [
@@ -17,87 +18,92 @@ const HELP_LINKS = [
 
 export default function Footer() {
   return (
-    <footer className="bg-green-deep text-white">
-      <div className="max-w-7xl mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-          {/* Brand */}
-          <div className="flex flex-col gap-3">
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">🦊</span>
-              <span className="font-heading font-bold text-lg leading-none">
-                <span className="text-[#F4B942]">ZARA</span>
-                <br />
-                <span className="text-white">MATHS</span>
+    <footer className="relative bg-[radial-gradient(circle_at_50%_0%,#2d6735_0%,#244C2D_42%,#193B22_100%)] text-white md:h-[126px] md:overflow-hidden">
+      <div className="mx-auto max-w-[864px] px-0 py-4">
+        <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 md:grid-cols-[210px_1fr_118px_152px_112px] md:items-start md:gap-5">
+          <div className="flex items-center gap-3">
+            <span className="relative flex h-[58px] w-[58px] items-center justify-center overflow-hidden rounded-full bg-[#fff6e7]">
+              <Image
+                src="/images/zara-cropped.png"
+                alt=""
+                width={58}
+                height={77}
+                className="absolute top-[-7px] h-[92px] w-auto max-w-none object-contain"
+                style={{ width: "auto" }}
+              />
+            </span>
+            <span className="flex flex-col leading-none">
+              <span className="font-heading text-[29px] font-bold text-orange">
+                ZARA
               </span>
-            </div>
-            <p className="font-body text-white/70 text-sm leading-relaxed max-w-xs">
-              Learning made simple.
-              <br />
-              CAPS-aligned resources for South African primary school learners.
-            </p>
+              <span className="-mt-1 font-heading text-[27px] font-bold text-[#b8c890]">
+                MATHS
+              </span>
+            </span>
           </div>
 
-          {/* Quick Links */}
+          <div className="pt-2 font-body text-[11px] font-semibold leading-[1.45] text-white">
+            <p>Learning made simple.</p>
+            <p>Created by teachers.</p>
+            <p>Made for South African learners.</p>
+          </div>
+
           <div>
-            <h4 className="font-heading font-bold text-sm uppercase tracking-widest text-white/60 mb-4">
+            <h4 className="mb-1 font-heading text-[11px] font-bold uppercase tracking-wide text-white">
               Quick Links
             </h4>
-            <ul className="flex flex-col gap-2">
-              {QUICK_LINKS.map((l) => (
-                <li key={l.label}>
+            <ul className="flex flex-col gap-0.5">
+              {QUICK_LINKS.map((link) => (
+                <li key={link.label}>
                   <Link
-                    href={l.href}
-                    className="font-body text-white/80 text-sm hover:text-white hover:underline transition-colors"
+                    href={link.href}
+                    className="font-body text-[11px] font-semibold text-white/90 transition-colors hover:text-white hover:underline"
                   >
-                    {l.label}
+                    {link.label}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Help */}
           <div>
-            <h4 className="font-heading font-bold text-sm uppercase tracking-widest text-white/60 mb-4">
+            <h4 className="mb-1 font-heading text-[11px] font-bold uppercase tracking-wide text-white">
               Help
             </h4>
-            <ul className="flex flex-col gap-2">
-              {HELP_LINKS.map((l) => (
-                <li key={l.label}>
+            <ul className="flex flex-col gap-0.5">
+              {HELP_LINKS.map((link) => (
+                <li key={link.label}>
                   <Link
-                    href={l.href}
-                    className="font-body text-white/80 text-sm hover:text-white hover:underline transition-colors"
+                    href={link.href}
+                    className="font-body text-[11px] font-semibold text-white/90 transition-colors hover:text-white hover:underline"
                   >
-                    {l.label}
+                    {link.label}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Social */}
           <div>
-            <h4 className="font-heading font-bold text-sm uppercase tracking-widest text-white/60 mb-4">
+            <h4 className="mb-3 font-heading text-[11px] font-bold uppercase tracking-wide text-white">
               Follow Us
             </h4>
             <div className="flex gap-3">
-              {/* Facebook */}
               <a
                 href="#"
                 aria-label="Facebook"
-                className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-green-deep transition-colors hover:bg-white"
               >
-                <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
                   <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
                 </svg>
               </a>
-              {/* Instagram */}
               <a
                 href="#"
                 aria-label="Instagram"
-                className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-green-deep transition-colors hover:bg-white"
               >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
                   <circle cx="12" cy="12" r="4" />
                   <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
@@ -108,11 +114,10 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Bottom bar */}
-      <div className="border-t border-white/20">
-        <div className="max-w-7xl mx-auto px-6 py-4 text-center">
-          <p className="font-body text-white/50 text-xs">
-            © 2026 Zara Maths. All rights reserved.
+      <div className="pb-3 text-center md:absolute md:bottom-2 md:left-0 md:right-0 md:pb-0">
+        <div className="mx-auto max-w-[1080px] px-6">
+          <p className="font-body text-[11px] font-semibold text-white/85">
+            © 2024 Zara Maths. All rights reserved. <span className="text-orange">♥</span>
           </p>
         </div>
       </div>

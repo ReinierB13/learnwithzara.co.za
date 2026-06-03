@@ -3,69 +3,70 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex flex-col lg:flex-row overflow-hidden">
-      {/* Left panel — text */}
-      <div className="relative z-10 flex flex-col justify-center px-8 pt-32 pb-16 lg:pt-28 lg:pb-20 lg:pl-16 lg:pr-8 w-full lg:w-[42%] bg-cream">
-        {/* Gradient fade into right panel on desktop */}
-        <div className="hidden lg:block absolute inset-y-0 right-0 w-24 bg-gradient-to-r from-cream to-transparent pointer-events-none" />
+    <section className="relative min-h-[548px] overflow-hidden">
+      <Image
+        src="/images/backgrounds/hero.png"
+        alt="African Kalahari savanna landscape"
+        fill
+        sizes="100vw"
+        className="object-cover object-center"
+        priority
+      />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,#fff8ee_0%,#fff8ee_26%,rgba(255,248,238,0.9)_33%,rgba(255,248,238,0.38)_45%,rgba(255,248,238,0)_61%)]" />
+      <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-cream to-transparent" />
 
-        <p className="font-body text-sm font-semibold tracking-widest text-green-soft uppercase mb-2">
-          South African Maths Resources
-        </p>
+      <div className="relative z-10 mx-auto flex min-h-[548px] max-w-[1180px] items-center pl-20 pr-8 pt-[106px]">
+        <div className="w-full max-w-[420px] pb-8">
+          <h1 className="font-heading leading-[0.92]">
+            <span className="block text-[86px] font-bold tracking-normal text-orange md:text-[88px]">
+              ZARA
+            </span>
+            <span className="block text-[84px] font-bold tracking-normal text-green-soft md:text-[86px]">
+              MATHS
+            </span>
+          </h1>
 
-        <h1 className="font-heading leading-none mb-1">
-          <span className="block text-[5.5rem] lg:text-[7rem] font-bold text-orange">
-            ZARA
-          </span>
-          <span className="block text-[5.5rem] lg:text-[7rem] font-bold text-green-deep">
-            MATHS
-          </span>
-        </h1>
+          <p className="mt-3 font-heading text-[29px] font-semibold italic leading-tight text-green-deep">
+            Learning made simple.
+          </p>
+          <div className="mt-6 h-[3px] w-[104px] rounded-full bg-orange" />
 
-        <p className="font-heading text-2xl font-semibold text-text-dark mb-1">
-          Learning made simple.
-        </p>
-        {/* Orange underline accent */}
-        <div className="w-20 h-1 rounded-full bg-orange mb-6" />
+          <p className="mt-8 max-w-[375px] font-body text-[16px] font-semibold leading-[1.55] text-text-dark">
+            CAPS-aligned workbooks, tests and exam preparation packs for Grades
+            R-7.
+            <br />
+            Created by experienced South African teachers.
+          </p>
 
-        <p className="font-body text-text-muted text-base leading-relaxed mb-8 max-w-sm">
-          CAPS-aligned workbooks, tests and exam preparation packs for Grades R–7.
-          <br />
-          Created by experienced South African teachers.
-        </p>
+          <Link
+            href="#products"
+            className="mt-7 inline-flex items-center gap-3 rounded-full bg-orange px-7 py-4 font-body text-[16px] font-extrabold text-white shadow-[0_12px_22px_rgba(233,91,11,0.24)] transition-all hover:bg-[#cf4f08] hover:shadow-lg"
+          >
+            Explore Our Products
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              className="h-5 w-5"
+              stroke="currentColor"
+              strokeWidth="2.4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M5 12h14" />
+              <path d="m13 6 6 6-6 6" />
+            </svg>
+          </Link>
+        </div>
 
-        <Link
-          href="#products"
-          className="inline-flex items-center gap-2 self-start px-7 py-3.5 rounded-full bg-orange text-white font-body font-semibold text-base hover:bg-[#c94f03] hover:shadow-lg transition-all"
-        >
-          Explore Our Products
-          <span>→</span>
-        </Link>
-      </div>
-
-      {/* Right panel — savanna background + fox */}
-      <div className="relative flex-1 min-h-[50vh] lg:min-h-0">
         <Image
-          src="/images/backgrounds/hero.png"
-          alt="African Kalahari savanna landscape"
-          fill
-          className="object-cover object-center"
+          src="/images/zara-cropped.png"
+          alt="Zara the bat-eared fox mascot"
+          width={300}
+          height={400}
+          className="absolute bottom-[34px] right-[120px] hidden h-[320px] w-auto object-contain drop-shadow-[0_16px_18px_rgba(65,36,12,0.28)] md:block"
+          style={{ width: "auto" }}
           priority
         />
-        {/* Left-edge gradient blend with cream panel */}
-        <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-cream to-transparent" />
-
-        {/* Zara fox mascot */}
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 lg:left-1/4 lg:translate-x-0 w-56 md:w-72 lg:w-80 xl:w-96">
-          <Image
-            src="/images/zara.png"
-            alt="Zara the bat-eared fox mascot"
-            width={500}
-            height={750}
-            className="object-contain drop-shadow-2xl"
-            priority
-          />
-        </div>
       </div>
     </section>
   );
