@@ -65,20 +65,20 @@ const CARDS = [
     ),
     title: "EXAM PREPARATION",
     body: "Complete exam preparation packs to help learners achieve their best.",
-    link: "View Exam Packs",
+    link: "View Exam Preparation",
     href: "#exampacks",
   },
 ];
 
 export default function ProductCards() {
   return (
-    <section id="products" className="bg-cream px-6 pb-4 pt-1">
+    <section id="products" className="bg-cream px-6 pb-7 pt-1">
       <div className="mx-auto max-w-[864px]">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           {CARDS.map((card) => (
             <div
               key={card.title}
-              className="flex h-[226px] flex-col items-center rounded-[18px] border border-[#efe2cf] bg-white/78 px-8 py-5 text-center shadow-[0_8px_22px_rgba(83,55,24,0.12)] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+              className="flex min-h-[250px] flex-col items-center rounded-[18px] border border-[#efe2cf] bg-white/78 px-6 py-5 text-center shadow-[0_8px_22px_rgba(83,55,24,0.12)] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
             >
               <div className="mb-1 flex h-[66px] items-center justify-center">
                 {card.icon}
@@ -91,7 +91,7 @@ export default function ProductCards() {
               </p>
               <Link
                 href={card.href}
-                className="mt-4 flex items-center gap-2 font-body text-[14px] font-extrabold text-orange hover:underline"
+                className="mt-4 flex items-center gap-2 whitespace-nowrap font-body text-[14px] font-extrabold text-orange hover:underline"
               >
                 {card.link}
                 <svg
