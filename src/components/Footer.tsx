@@ -33,11 +33,11 @@ export default function Footer() {
               />
             </span>
             <span className="flex flex-col leading-none">
-              <span className="font-heading text-[29px] font-bold text-orange">
-                ZARA
+              <span className="font-heading text-[24px] font-bold text-orange">
+                LEARN
               </span>
-              <span className="-mt-1 font-heading text-[27px] font-bold text-[#b8c890]">
-                MATHS
+              <span className="-mt-1 font-heading text-[18px] font-bold text-[#b8c890]">
+                WITH ZARA
               </span>
             </span>
           </div>
@@ -126,7 +126,7 @@ export default function Footer() {
       <div className="pb-3 text-center md:absolute md:bottom-2 md:left-0 md:right-0 md:pb-0">
         <div className="mx-auto max-w-[1080px] px-6">
           <p className="font-body text-[11px] font-semibold text-white/85">
-            © 2024 Zara Maths. All rights reserved. <span className="text-orange">♥</span>
+            © 2024 Learn with Zara. All rights reserved. <span className="text-orange">♥</span>
           </p>
         </div>
       </div>

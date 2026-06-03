@@ -19,7 +19,7 @@ const CARDS = [
       </svg>
     ),
     title: "WORKBOOKS",
-    body: "Clear explanations and lots of practice to build confidence. Afrikaans & English.",
+    body: "Clear explanations and lots of practice to build confidence across school subjects.",
     link: "View Workbooks",
     href: "#workbooks",
   },

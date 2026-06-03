@@ -18,11 +18,11 @@ export default function Hero() {
       <div className="relative z-10 mx-auto flex min-h-[548px] max-w-[1180px] items-center pl-20 pr-8 pt-[106px]">
         <div className="w-full max-w-[420px] pb-8">
           <h1 className="font-heading leading-[0.92]">
-            <span className="block text-[86px] font-bold tracking-normal text-orange md:text-[88px]">
-              ZARA
+            <span className="block text-[78px] font-bold tracking-normal text-orange md:text-[82px]">
+              LEARN
             </span>
-            <span className="block text-[84px] font-bold tracking-normal text-green-soft md:text-[86px]">
-              MATHS
+            <span className="block text-[54px] font-bold tracking-normal text-green-soft md:text-[58px]">
+              WITH ZARA
             </span>
           </h1>
 
@@ -32,8 +32,8 @@ export default function Hero() {
           <div className="mt-6 h-[3px] w-[104px] rounded-full bg-orange" />
 
           <p className="mt-8 max-w-[375px] font-body text-[16px] font-semibold leading-[1.55] text-text-dark">
-            CAPS-aligned workbooks, tests and exam preparation packs for Grades
-            R-7.
+            CAPS-aligned learning resources, practice packs and exam preparation
+            for South African school learners.
             <br />
             Created by experienced South African teachers.
           </p>

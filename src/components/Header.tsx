@@ -29,7 +29,7 @@ export default function Header() {
       }`}
     >
       <div className="mx-auto flex max-w-[1180px] items-center justify-between px-8 py-5">
-        <Link href="/" className="flex shrink-0 items-center gap-3">
+        <Link href="/" aria-label="Learn with Zara home" className="flex shrink-0 items-center">
           <span className="relative flex h-[70px] w-[70px] items-center justify-center overflow-hidden rounded-full bg-[#fff6e7] shadow-[0_6px_18px_rgba(61,38,11,0.12)]">
             <Image
               src="/images/zara-cropped.png"
@@ -40,17 +40,6 @@ export default function Header() {
               style={{ width: "auto" }}
               priority
             />
-          </span>
-          <span className="flex flex-col leading-none">
-            <span className="font-heading text-[37px] font-bold tracking-normal text-orange">
-              ZARA
-            </span>
-            <span className="-mt-1 font-heading text-[34px] font-bold tracking-normal text-green-soft">
-              MATHS
-            </span>
-            <span className="-mt-0.5 font-body text-[10px] font-extrabold text-green-deep">
-              Learning made simple.
-            </span>
           </span>
         </Link>
 

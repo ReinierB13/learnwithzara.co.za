@@ -61,7 +61,7 @@ export default function TrustSection() {
             <h2 className="font-heading text-[27px] font-bold leading-[1.12] tracking-wide text-green-deep">
               WHY PARENTS
               <br />
-              TRUST ZARA MATHS
+              TRUST LEARN WITH ZARA
             </h2>
             <div className="mt-3 h-[3px] w-14 rounded-full bg-orange" />
             <ul className="mt-3 flex flex-col gap-2.5">

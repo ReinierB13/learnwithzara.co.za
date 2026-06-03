@@ -15,9 +15,9 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
-  title: "Zara Maths — Learning made simple.",
+  title: "Learn with Zara — Learning made simple.",
   description:
-    "CAPS-aligned maths workbooks, test packs and exam preparation for South African primary school learners, Grades R–7.",
+    "CAPS-aligned school resources, practice packs and exam preparation for South African learners.",
 };
 
 export default function RootLayout({
