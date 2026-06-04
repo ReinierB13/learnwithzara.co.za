@@ -15,3 +15,5 @@
 - Updated the footer Refund Policy link to open the new page.
 - Added a dedicated `/faqs` page with frequently asked questions.
 - Updated the footer FAQs link to open the new page.
+- Added a dedicated `/shipping-delivery` page for digital delivery details.
+- Updated the footer Shipping & Delivery link to open the new page.
