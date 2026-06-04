@@ -19,7 +19,7 @@ export default function NewsletterSignup() {
       const response = await fetch("/api/newsletter", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, source: "calendar_download" }),
       });
 
       const body = await response.json();
@@ -42,7 +42,10 @@ export default function NewsletterSignup() {
   }
 
   return (
-    <section id="contact" className="relative overflow-hidden bg-orange px-6 py-4">
+    <section
+      id="contact"
+      className="relative overflow-hidden bg-orange px-6 py-8 md:py-10"
+    >
       <Image
         src="/images/backgrounds/newsletter.png"
         alt=""
@@ -52,64 +55,76 @@ export default function NewsletterSignup() {
         aria-hidden="true"
       />
 
-      <div className="relative z-10 mx-auto flex max-w-[864px] flex-col items-center gap-5 md:flex-row">
-        <div className="flex flex-1 items-center gap-4 text-white">
-          <svg
-            viewBox="0 0 40 40"
-            fill="none"
-            className="h-8 w-8 shrink-0"
-            stroke="currentColor"
-            strokeWidth="2.2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <rect x="6" y="10" width="28" height="20" rx="2" />
-            <path d="m7 12 13 10 13-10" />
-          </svg>
-          <div>
-            <h2 className="font-heading text-[22px] font-bold leading-none tracking-wide text-white">
-              STAY UPDATED
-            </h2>
-            <p className="mt-1 max-w-[360px] font-body text-[13px] font-bold leading-[1.35] text-white">
-              Be the first to know about new products, special offers and
-              helpful tips.
-            </p>
+      <div className="relative z-10 mx-auto grid max-w-[864px] grid-cols-1 items-center gap-7 md:grid-cols-[285px_1fr]">
+        <div className="mx-auto w-full max-w-[255px] md:max-w-none">
+          <div className="relative aspect-[1054/1492] overflow-hidden rounded-[12px] border-[6px] border-white bg-white shadow-[0_18px_36px_rgba(86,41,8,0.26)]">
+            <Image
+              src="/Calender_Free_download_QR_code.png"
+              alt="2026 South African public school calendar printable"
+              fill
+              sizes="(min-width: 768px) 285px, 255px"
+              className="object-cover object-top"
+            />
           </div>
         </div>
 
-        {submitted ? (
-          <p className="inline-block rounded-full bg-white/20 px-8 py-4 font-body text-base font-extrabold text-white">
-            Thanks! We&apos;ll be in touch soon.
+        <div className="text-center text-white md:text-left">
+          <h2 className="font-heading text-[34px] font-bold leading-[0.98] tracking-wide text-white md:text-[42px]">
+            FREE 2026 SCHOOL CALENDAR
+          </h2>
+          <div className="mx-auto mt-4 h-[3px] w-20 rounded-full bg-white md:mx-0" />
+          <p className="mx-auto mt-5 max-w-[460px] font-body text-[16px] font-extrabold leading-[1.45] text-white md:mx-0">
+            Sign up for the Learn with Zara newsletter and download the printable
+            South African public school calendar for free.
           </p>
-        ) : (
-          <form
-            onSubmit={handleSubmit}
-            className="flex w-full max-w-[450px] flex-col gap-2"
-          >
-            <div className="flex overflow-hidden rounded-full bg-white shadow-[0_8px_18px_rgba(86,41,8,0.16)]">
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Your email address"
-                className="min-w-0 flex-1 bg-white px-7 py-4 font-body text-[13px] font-semibold text-text-dark placeholder:text-text-muted focus:outline-none"
-              />
-              <button
-                type="submit"
-                disabled={submitting}
-                className="shrink-0 rounded-full bg-green-deep px-8 py-4 font-body text-[14px] font-extrabold text-white transition-colors hover:bg-[#1b3d23] disabled:cursor-not-allowed disabled:bg-green-soft"
-              >
-                {submitting ? "Saving" : "Subscribe"}
-              </button>
-            </div>
-            {error && (
-              <p className="px-7 font-body text-[12px] font-extrabold text-white">
-                {error}
+          <p className="mx-auto mt-2 max-w-[430px] font-body text-[13px] font-bold leading-[1.4] text-white/95 md:mx-0">
+            Includes term dates, school holidays, public holidays and space for
+            parent notes.
+          </p>
+
+          {submitted ? (
+            <div className="mt-6 flex flex-col items-center gap-3 md:items-start">
+              <p className="font-body text-[15px] font-extrabold text-white">
+                Thanks! Your free calendar is ready.
               </p>
-            )}
-          </form>
-        )}
+              <a
+                href="/Calender_Free_download_QR_code.png"
+                download
+                className="inline-flex min-h-12 items-center justify-center rounded-full bg-green-deep px-7 py-3 font-body text-[14px] font-extrabold text-white shadow-[0_10px_20px_rgba(36,76,45,0.24)] transition-colors hover:bg-[#1b3d23]"
+              >
+                Download Calendar
+              </a>
+            </div>
+          ) : (
+            <form
+              onSubmit={handleSubmit}
+              className="mx-auto mt-6 flex w-full max-w-[470px] flex-col gap-2 md:mx-0"
+            >
+              <div className="flex flex-col overflow-hidden rounded-[24px] bg-white shadow-[0_8px_18px_rgba(86,41,8,0.16)] sm:flex-row sm:rounded-full">
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Your email address"
+                  className="min-h-12 min-w-0 flex-1 bg-white px-6 py-3 font-body text-[13px] font-semibold text-text-dark placeholder:text-text-muted focus:outline-none"
+                />
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="min-h-12 shrink-0 bg-green-deep px-7 py-3 font-body text-[14px] font-extrabold text-white transition-colors hover:bg-[#1b3d23] disabled:cursor-not-allowed disabled:bg-green-soft sm:rounded-full"
+                >
+                  {submitting ? "Saving" : "Get Free Calendar"}
+                </button>
+              </div>
+              {error && (
+                <p className="px-4 font-body text-[12px] font-extrabold text-white">
+                  {error}
+                </p>
+              )}
+            </form>
+          )}
+        </div>
       </div>
     </section>
   );

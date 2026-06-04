@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getSql } from "@/lib/db";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const ALLOWED_SOURCES = new Set(["newsletter_form", "calendar_download"]);
 
 async function ensureNewsletterSchema() {
   const sql = getSql();
@@ -39,6 +40,14 @@ export async function POST(request: Request) {
     typeof payload.email === "string"
       ? payload.email.trim().toLowerCase()
       : "";
+  const source =
+    typeof payload === "object" &&
+    payload !== null &&
+    "source" in payload &&
+    typeof payload.source === "string" &&
+    ALLOWED_SOURCES.has(payload.source)
+      ? payload.source
+      : "newsletter_form";
 
   if (!EMAIL_PATTERN.test(email)) {
     return NextResponse.json(
@@ -54,7 +63,7 @@ export async function POST(request: Request) {
 
     const subscribers = (await sql`
       INSERT INTO newsletter_subscribers (email, source)
-      VALUES (${email}, 'newsletter_form')
+      VALUES (${email}, ${source})
       ON CONFLICT ((lower(email)))
       DO UPDATE SET updated_at = now(), source = EXCLUDED.source
       RETURNING id, email, created_at, updated_at
@@ -65,7 +74,13 @@ export async function POST(request: Request) {
       updated_at: string;
     }>;
 
-    return NextResponse.json({ subscriber: subscribers[0] });
+    return NextResponse.json({
+      subscriber: subscribers[0],
+      downloadUrl:
+        source === "calendar_download"
+          ? "/Calender_Free_download_QR_code.png"
+          : null,
+    });
   } catch (error) {
     console.error("Newsletter signup failed:", error);
     return NextResponse.json(

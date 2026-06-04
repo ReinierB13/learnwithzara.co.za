@@ -66,6 +66,7 @@ npm run lint
 | `src/lib/db.ts` | Neon database client helper. |
 | `src/components/Footer.tsx` | Footer navigation and social placeholders. |
 | `db/newsletter_subscribers.sql` | Newsletter subscriber table schema. |
+| `public/Calender_Free_download_QR_code.png` | Free printable school calendar lead magnet. |
 | `public/images` | Production image assets used by the site. |
 | `BackGround` | Source/generated background image candidates. |
 
@@ -109,4 +110,5 @@ The API route at `/api/newsletter`:
 
 - Keep copy focused on South African learners, CAPS-aligned resources, and teacher-created materials.
 - Product links currently point to homepage anchors/placeholders until product pages or ecommerce flows are added.
+- The free school calendar is featured on the homepage and unlocked in the UI after newsletter signup.
 - Social, FAQ, shipping, refund, and terms links in the footer are placeholders and should be replaced when those pages/accounts are ready.
