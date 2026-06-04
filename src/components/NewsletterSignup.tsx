@@ -6,12 +6,39 @@ import Image from "next/image";
 export default function NewsletterSignup() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!email) return;
-    setSubmitted(true);
-    setEmail("");
+    setSubmitting(true);
+    setError("");
+
+    try {
+      const response = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      const body = await response.json();
+
+      if (!response.ok) {
+        throw new Error(body.error || "Subscription failed.");
+      }
+
+      setSubmitted(true);
+      setEmail("");
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "We could not save your email right now.",
+      );
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -57,22 +84,30 @@ export default function NewsletterSignup() {
         ) : (
           <form
             onSubmit={handleSubmit}
-            className="flex w-full max-w-[450px] overflow-hidden rounded-full bg-white shadow-[0_8px_18px_rgba(86,41,8,0.16)]"
+            className="flex w-full max-w-[450px] flex-col gap-2"
           >
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Your email address"
-              className="min-w-0 flex-1 bg-white px-7 py-4 font-body text-[13px] font-semibold text-text-dark placeholder:text-text-muted focus:outline-none"
-            />
-            <button
-              type="submit"
-              className="shrink-0 rounded-full bg-green-deep px-8 py-4 font-body text-[14px] font-extrabold text-white transition-colors hover:bg-[#1b3d23]"
-            >
-              Subscribe
-            </button>
+            <div className="flex overflow-hidden rounded-full bg-white shadow-[0_8px_18px_rgba(86,41,8,0.16)]">
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Your email address"
+                className="min-w-0 flex-1 bg-white px-7 py-4 font-body text-[13px] font-semibold text-text-dark placeholder:text-text-muted focus:outline-none"
+              />
+              <button
+                type="submit"
+                disabled={submitting}
+                className="shrink-0 rounded-full bg-green-deep px-8 py-4 font-body text-[14px] font-extrabold text-white transition-colors hover:bg-[#1b3d23] disabled:cursor-not-allowed disabled:bg-green-soft"
+              >
+                {submitting ? "Saving" : "Subscribe"}
+              </button>
+            </div>
+            {error && (
+              <p className="px-7 font-body text-[12px] font-extrabold text-white">
+                {error}
+              </p>
+            )}
           </form>
         )}
       </div>

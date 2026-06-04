@@ -1,36 +1,112 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Learn with Zara
+
+Public website for Learn with Zara, a South African learning-resource brand offering CAPS-aligned workbooks, test packs, and exam preparation material for school learners.
+
+## Live Site
+
+Production is live at:
+
+```text
+https://learnwithzara.co.za
+```
+
+## Project Status
+
+- Live public site: `https://learnwithzara.co.za`
+- Framework: Next.js App Router
+- Styling: Tailwind CSS
+- Language: TypeScript
+- Database: Neon Serverless Postgres for newsletter subscribers
+- Primary route: `src/app/page.tsx`
+- Main page sections: header, hero, product cards, trust section, Meet Zara, newsletter signup, and footer
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open the local site:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Common Commands
 
-## Learn More
+```bash
+npm run dev
+npm run build
+npm run start
+npm run lint
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Key Files
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| File | Purpose |
+| --- | --- |
+| `src/app/page.tsx` | Composes the homepage sections. |
+| `src/app/layout.tsx` | App metadata, fonts, and root layout. |
+| `src/app/globals.css` | Theme tokens and global styles. |
+| `src/components/Header.tsx` | Fixed navigation, mobile menu, account/cart links. |
+| `src/components/Hero.tsx` | First viewport brand section with Zara mascot and call to action. |
+| `src/components/ProductCards.tsx` | Workbooks, test packs, and exam preparation cards. |
+| `src/components/TrustSection.tsx` | Parent/teacher trust messaging. |
+| `src/components/MeetZara.tsx` | Brand mascot and learner-friendly story section. |
+| `src/components/NewsletterSignup.tsx` | Email signup/contact area. |
+| `src/app/api/newsletter/route.ts` | API route that validates and stores newsletter emails. |
+| `src/lib/db.ts` | Neon database client helper. |
+| `src/components/Footer.tsx` | Footer navigation and social placeholders. |
+| `db/newsletter_subscribers.sql` | Newsletter subscriber table schema. |
+| `public/images` | Production image assets used by the site. |
+| `BackGround` | Source/generated background image candidates. |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Environment Variables
 
-## Deploy on Vercel
+Create a local `.env.local` file with the Neon connection string:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+DATABASE_URL=postgresql://USER:PASSWORD@HOST/DATABASE?sslmode=require
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Set the same `DATABASE_URL` in the production hosting environment before deploying newsletter signup changes.
+
+## Newsletter Database
+
+Newsletter emails are stored in the `newsletter_subscribers` table.
+
+Neon project:
+
+- Name: `learnwithzara`
+- Project ID: `aged-bird-59300115`
+- Region: `aws-eu-central-1`
+- Database: `learnwithzara`
+- Branch: `main`
+
+The API route at `/api/newsletter`:
+
+- accepts `POST` requests with `{ "email": "person@example.com" }`
+- normalizes emails to lowercase
+- creates the table and unique email index if they do not already exist
+- upserts repeat signups instead of creating duplicates
+
+## Deployment Notes
+
+- Production domain: `learnwithzara.co.za`
+- Canonical URL to use in docs and references: `https://learnwithzara.co.za`
+- Before publishing changes, run `npm run build` and `npm run lint`.
+- After deployment, smoke test the homepage, navigation anchors, mobile menu, newsletter/contact area, and production HTTPS redirect.
+
+## Content Notes
+
+- Keep copy focused on South African learners, CAPS-aligned resources, and teacher-created materials.
+- Product links currently point to homepage anchors/placeholders until product pages or ecommerce flows are added.
+- Social, FAQ, shipping, refund, and terms links in the footer are placeholders and should be replaced when those pages/accounts are ready.
