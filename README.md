@@ -54,7 +54,7 @@ npm run lint
 | File | Purpose |
 | --- | --- |
 | `src/app/page.tsx` | Composes the homepage sections. |
-| `src/app/layout.tsx` | App metadata, fonts, and root layout. |
+| `src/app/layout.tsx` | App metadata, tab icon, fonts, and root layout. |
 | `src/app/globals.css` | Theme tokens and global styles. |
 | `src/components/Header.tsx` | Fixed navigation, mobile menu, account/cart links. |
 | `src/components/Hero.tsx` | First viewport brand section with Zara mascot and call to action. |
@@ -67,6 +67,7 @@ npm run lint
 | `src/components/Footer.tsx` | Footer navigation and social placeholders. |
 | `db/newsletter_subscribers.sql` | Newsletter subscriber table schema. |
 | `public/Calender_Free_download_QR_code.png` | Free printable school calendar lead magnet. |
+| `public/tab_icon.png` | Browser tab icon for the site. |
 | `public/images` | Production image assets used by the site. |
 | `BackGround` | Source/generated background image candidates. |
 
