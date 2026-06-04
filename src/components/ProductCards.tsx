@@ -21,7 +21,7 @@ const CARDS = [
     title: "WORKBOOKS",
     body: "Clear explanations and lots of practice to build confidence across school subjects.",
     link: "View Workbooks",
-    href: "#workbooks",
+    href: "/products",
   },
   {
     icon: (
@@ -44,7 +44,7 @@ const CARDS = [
     title: "TEST PACKS",
     body: "Topic tests and assessments to track progress and improve results.",
     link: "View Test Packs",
-    href: "#testpacks",
+    href: "/products",
   },
   {
     icon: (
@@ -66,7 +66,7 @@ const CARDS = [
     title: "EXAM PREPARATION",
     body: "Complete exam preparation packs to help learners achieve their best.",
     link: "View Exam Preparation",
-    href: "#exampacks",
+    href: "/products",
   },
 ];
 

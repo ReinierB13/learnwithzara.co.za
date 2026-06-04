@@ -80,6 +80,13 @@ export async function POST(request: Request) {
         source === "calendar_download"
           ? "/Calender_Free_download_QR_code.png"
           : null,
+      downloadUrls:
+        source === "calendar_download"
+          ? [
+              "/Calender_Free_download_QR_code.png",
+              "/Calender_Free_download_QR_code_2027.png",
+            ]
+          : [],
     });
   } catch (error) {
     console.error("Newsletter signup failed:", error);

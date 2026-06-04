@@ -92,7 +92,7 @@ export default function ZaraStoryPage() {
                   our adventure together!
                 </p>
                 <p className="font-heading text-2xl font-bold text-orange">
-                  &#129418; Your friend,
+                  Your friend,
                   <br />
                   Zara
                 </p>
