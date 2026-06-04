@@ -3,10 +3,10 @@ import Link from "next/link";
 
 const QUICK_LINKS = [
   { label: "Home", href: "/" },
-  { label: "About Zara", href: "#about" },
-  { label: "Our Products", href: "#products" },
-  { label: "For Parents", href: "#parents" },
-  { label: "Contact", href: "#contact" },
+  { label: "About Zara", href: "/#about" },
+  { label: "Our Products", href: "/#products" },
+  { label: "For Parents", href: "/#parents" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 const HELP_LINKS = [

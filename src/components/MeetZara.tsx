@@ -25,11 +25,12 @@ export default function MeetZara() {
             <div className="mt-3 h-[3px] w-14 rounded-full bg-orange" />
             <p className="mt-3 max-w-[450px] font-body text-[14px] font-semibold leading-[1.4] text-text-dark">
               Zara is a curious bat-eared fox from the African bush who loves
-              solving problems and learning new things. She&apos;s here to help
-              you every step of the way!
+              solving problems, asking questions, and helping children learn
+              new things. She&apos;s here to guide you every step of the way on
+              your learning adventure.
             </p>
             <Link
-              href="#about"
+              href="/zara-story"
               className="mt-3 inline-flex items-center gap-3 rounded-full bg-green-deep px-6 py-3 font-body text-[14px] font-extrabold text-white transition-all hover:bg-[#1b3d23] hover:shadow-lg"
             >
               Read Zara&apos;s Story
