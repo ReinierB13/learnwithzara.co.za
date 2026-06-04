@@ -10,9 +10,9 @@ const QUICK_LINKS = [
 ];
 
 const HELP_LINKS = [
-  { label: "FAQs", href: "#" },
+  { label: "FAQs", href: "/faqs" },
   { label: "Shipping & Delivery", href: "#" },
-  { label: "Refund Policy", href: "#" },
+  { label: "Refund Policy", href: "/refund-policy" },
   { label: "Terms & Conditions", href: "#" },
 ];
 

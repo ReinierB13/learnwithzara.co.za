@@ -11,3 +11,7 @@
 - Added `public/Calender_Free_download_QR_code_2027.png`.
 - Added a dedicated `/parents` page with the "A Word to Parents" message.
 - Updated "For Parents" navigation links to open the new parents page.
+- Added a dedicated `/refund-policy` page with the digital products refund policy.
+- Updated the footer Refund Policy link to open the new page.
+- Added a dedicated `/faqs` page with frequently asked questions.
+- Updated the footer FAQs link to open the new page.
