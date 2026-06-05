@@ -103,8 +103,8 @@ export default function ShippingDeliveryPage() {
                     learnwithzara@outlook.com
                   </a>
                 </p>
-                <p>Website:</p>
                 <p>
+                  <strong className="text-green-deep">Website:</strong>{" "}
                   <Link
                     href="/"
                     className="text-orange underline hover:text-[#cf4f08]"
