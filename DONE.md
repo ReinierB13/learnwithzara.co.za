@@ -48,3 +48,4 @@
 - Improved admin R2 upload errors when the Access Key ID is incorrect.
 - Added `/products-test` to display uploaded products and prototype basket testing.
 - Added `/basket` with browser-stored test cart items, quantity controls, and basket summary.
+- Kept product add-to-basket actions on `/products-test` and added running basket counts.

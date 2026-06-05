@@ -1,11 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useState } from "react";
 import {
   addProductToBasket,
   formatBasketPrice,
+  getBasketItemCount,
   productMeta,
+  readBasket,
   type BasketProduct,
 } from "@/lib/basket";
 
@@ -16,15 +19,36 @@ export default function ProductTestStore({
 }: {
   products: StoreProduct[];
 }) {
-  const router = useRouter();
+  const [basketCount, setBasketCount] = useState(() =>
+    getBasketItemCount(readBasket()),
+  );
+  const [lastAdded, setLastAdded] = useState("");
 
   function addToBasket(product: StoreProduct) {
-    addProductToBasket(product);
-    router.push("/basket");
+    const next = addProductToBasket(product);
+    setBasketCount(getBasketItemCount(next));
+    setLastAdded(product.title);
   }
 
   return (
     <div className="mt-9">
+      <div className="mb-6 flex flex-col gap-3 rounded-[18px] border border-[#efe2cf] bg-beige px-6 py-5 shadow-[0_8px_22px_rgba(83,55,24,0.08)] sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h2 className="font-heading text-[26px] font-bold text-green-deep">
+            Basket
+          </h2>
+          <p className="font-body text-[14px] font-bold text-text-muted">
+            {basketCount} {basketCount === 1 ? "item" : "items"} currently added
+            {lastAdded ? ` / Last added: ${lastAdded}` : ""}
+          </p>
+        </div>
+        <Link
+          href="/basket"
+          className="inline-flex min-h-11 items-center justify-center rounded-full bg-green-deep px-6 py-3 font-body text-[13px] font-extrabold text-white shadow-[0_10px_20px_rgba(36,76,45,0.20)] transition-colors hover:bg-[#1b3d23]"
+        >
+          View basket
+        </Link>
+      </div>
       <section className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
         {products.length > 0 ? (
           products.map((product) => (

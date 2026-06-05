@@ -61,6 +61,10 @@ export function writeBasket(items: BasketItem[]) {
   window.dispatchEvent(new Event("learn-with-zara-basket"));
 }
 
+export function getBasketItemCount(items: BasketItem[]) {
+  return items.reduce((total, item) => total + item.quantity, 0);
+}
+
 export function addProductToBasket(product: BasketProduct) {
   const current = readBasket();
   const existing = current.find((item) => item.product.id === product.id);

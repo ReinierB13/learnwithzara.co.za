@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { getBasketItemCount, readBasket } from "@/lib/basket";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
@@ -15,11 +16,25 @@ const NAV_LINKS = [
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [basketCount, setBasketCount] = useState(0);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const updateBasketCount = () => setBasketCount(getBasketItemCount(readBasket()));
+
+    updateBasketCount();
+    window.addEventListener("learn-with-zara-basket", updateBasketCount);
+    window.addEventListener("storage", updateBasketCount);
+
+    return () => {
+      window.removeEventListener("learn-with-zara-basket", updateBasketCount);
+      window.removeEventListener("storage", updateBasketCount);
+    };
   }, []);
 
   return (
@@ -79,7 +94,7 @@ export default function Header() {
               <circle cx="24" cy="26" r="2" />
             </svg>
             <span className="absolute -right-1 top-0 flex h-5 w-5 items-center justify-center rounded-full bg-orange text-[10px] font-extrabold text-white">
-              0
+              {basketCount}
             </span>
           </Link>
           <Link
@@ -131,7 +146,7 @@ export default function Header() {
             className="inline-flex items-center justify-center rounded-full border border-beige px-4 py-2 font-body text-sm font-extrabold text-green-deep transition-colors hover:border-orange hover:text-orange"
             onClick={() => setMenuOpen(false)}
           >
-            Basket
+            Basket ({basketCount})
           </Link>
         </div>
       )}
