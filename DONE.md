@@ -45,3 +45,4 @@
 - Removed the Vercel Blob dependency after moving uploads to R2.
 - Collapsed the admin course form behind a plus control.
 - Updated R2 product upload paths to use grade and subject folders.
+- Improved admin R2 upload errors when the Access Key ID is incorrect.

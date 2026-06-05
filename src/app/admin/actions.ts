@@ -35,6 +35,16 @@ function redirectAdmin(type: "error" | "message", message: string): never {
   redirect(`/admin?${type}=${encodeURIComponent(message)}`);
 }
 
+function getUploadErrorMessage(error: unknown) {
+  const message = error instanceof Error ? error.message : "";
+
+  if (message.includes("Credential access key has length")) {
+    return "The R2 Access Key ID looks incorrect. Please use the S3 API Access Key ID from Cloudflare R2, not the secret key or API token.";
+  }
+
+  return "The PDF could not be uploaded to Cloudflare R2. Please check the R2 environment variables and bucket permissions.";
+}
+
 async function requireAdmin() {
   const user = await getCurrentUser();
 
@@ -234,10 +244,7 @@ export async function createProduct(formData: FormData) {
     });
   } catch (error) {
     console.error("Product PDF upload failed", error);
-    redirectAdmin(
-      "error",
-      "The PDF could not be uploaded to Cloudflare R2. Please check the R2 environment variables and bucket permissions.",
-    );
+    redirectAdmin("error", getUploadErrorMessage(error));
   }
 
   const priceCents = isFree ? 0 : Math.round(priceRand * 100);
