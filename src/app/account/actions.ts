@@ -182,3 +182,54 @@ export async function deleteChildProfile(formData: FormData) {
 
   redirectWithChildMessage("childSaved", "Child profile removed.");
 }
+
+export async function updateChildProfile(formData: FormData) {
+  const user = await getCurrentUser();
+
+  if (!user) {
+    redirect("/account?mode=login&error=Please sign in to manage children.");
+  }
+
+  const childId = Number(formValue(formData, "childId"));
+  const firstName = formValue(formData, "firstName");
+  const lastName = formValue(formData, "lastName");
+  const grade = formValue(formData, "grade");
+  const language = formValue(formData, "language");
+  const schoolName = formValue(formData, "schoolName");
+
+  if (!Number.isInteger(childId) || childId <= 0) {
+    redirectWithChildMessage("childError", "We could not find that child profile.");
+  }
+
+  if (!firstName || !lastName) {
+    redirectWithChildMessage("childError", "Please enter the child's first and last name.");
+  }
+
+  if (!GRADES.has(grade)) {
+    redirectWithChildMessage("childError", "Please choose a valid grade.");
+  }
+
+  if (!LANGUAGES.has(language)) {
+    redirectWithChildMessage("childError", "Please choose a valid language.");
+  }
+
+  const sql = getSql();
+  const updatedChildren = (await sql`
+    UPDATE children
+    SET
+      first_name = ${firstName},
+      last_name = ${lastName},
+      grade = ${grade},
+      language = ${language},
+      school_name = ${schoolName || null}
+    WHERE id = ${childId}
+      AND user_id = ${user.id}
+    RETURNING id
+  `) as Array<{ id: number }>;
+
+  if (updatedChildren.length === 0) {
+    redirectWithChildMessage("childError", "We could not update that child profile.");
+  }
+
+  redirectWithChildMessage("childSaved", `${firstName}'s details have been updated.`);
+}

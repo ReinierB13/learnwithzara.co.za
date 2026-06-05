@@ -9,6 +9,7 @@ import {
   loginAccount,
   logoutAccount,
   registerAccount,
+  updateChildProfile,
 } from "./actions";
 
 type AccountPageProps = {
@@ -113,6 +114,24 @@ function SelectField({
         ))}
       </select>
     </label>
+  );
+}
+
+function PencilIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="h-4 w-4"
+      aria-hidden="true"
+    >
+      <path d="M12 20h9" />
+      <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z" />
+    </svg>
   );
 }
 
@@ -364,7 +383,7 @@ export default async function AccountPage({ searchParams }: AccountPageProps) {
                         children.map((child) => (
                           <div
                             key={child.id}
-                            className="flex flex-col gap-4 rounded-[14px] bg-white px-5 py-4 shadow-[0_6px_16px_rgba(83,55,24,0.08)] sm:flex-row sm:items-center sm:justify-between"
+                            className="relative flex flex-col gap-4 rounded-[14px] bg-white px-5 py-4 shadow-[0_6px_16px_rgba(83,55,24,0.08)] sm:flex-row sm:items-center sm:justify-between"
                           >
                             <div>
                               <h4 className="font-heading text-[21px] font-bold text-green-deep">
@@ -375,15 +394,81 @@ export default async function AccountPage({ searchParams }: AccountPageProps) {
                                 {child.school_name ? ` · ${child.school_name}` : ""}
                               </p>
                             </div>
-                            <form action={deleteChildProfile}>
-                              <input type="hidden" name="childId" value={child.id} />
-                              <button
-                                type="submit"
-                                className="inline-flex min-h-10 items-center justify-center rounded-full border border-[#efe2cf] px-5 py-2 font-body text-[12px] font-extrabold text-orange transition-colors hover:border-orange"
-                              >
-                                Remove
-                              </button>
-                            </form>
+                            <div className="flex items-center gap-2">
+                              <details className="group">
+                                <summary className="inline-flex min-h-10 cursor-pointer list-none items-center justify-center rounded-full border border-[#efe2cf] px-4 py-2 font-body text-[12px] font-extrabold text-green-deep transition-colors hover:border-green-deep [&::-webkit-details-marker]:hidden">
+                                  <PencilIcon />
+                                  <span className="sr-only">Edit child</span>
+                                </summary>
+                                <div className="mt-4 rounded-[14px] border border-[#efe2cf] bg-cream px-4 py-4 sm:absolute sm:right-5 sm:z-10 sm:w-[420px] sm:shadow-[0_14px_30px_rgba(83,55,24,0.16)]">
+                                  <form action={updateChildProfile}>
+                                    <input
+                                      type="hidden"
+                                      name="childId"
+                                      value={child.id}
+                                    />
+                                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                                      <label className="flex flex-col gap-2 font-body text-[13px] font-extrabold text-text-dark">
+                                        First name
+                                        <input
+                                          name="firstName"
+                                          type="text"
+                                          required
+                                          defaultValue={child.first_name}
+                                          className="min-h-11 rounded-[14px] border border-[#efe2cf] bg-white px-4 py-3 font-body text-[14px] font-bold text-text-dark outline-none transition-colors focus:border-orange"
+                                        />
+                                      </label>
+                                      <label className="flex flex-col gap-2 font-body text-[13px] font-extrabold text-text-dark">
+                                        Last name
+                                        <input
+                                          name="lastName"
+                                          type="text"
+                                          required
+                                          defaultValue={child.last_name}
+                                          className="min-h-11 rounded-[14px] border border-[#efe2cf] bg-white px-4 py-3 font-body text-[14px] font-bold text-text-dark outline-none transition-colors focus:border-orange"
+                                        />
+                                      </label>
+                                      <SelectField
+                                        label="Grade"
+                                        name="grade"
+                                        defaultValue={child.grade}
+                                        options={["R", "1", "2", "3", "4", "5", "6", "7"]}
+                                      />
+                                      <SelectField
+                                        label="Language"
+                                        name="language"
+                                        defaultValue={child.language}
+                                        options={["English", "Afrikaans"]}
+                                      />
+                                    </div>
+                                    <label className="mt-4 flex flex-col gap-2 font-body text-[13px] font-extrabold text-text-dark">
+                                      School name optional
+                                      <input
+                                        name="schoolName"
+                                        type="text"
+                                        defaultValue={child.school_name || ""}
+                                        className="min-h-11 rounded-[14px] border border-[#efe2cf] bg-white px-4 py-3 font-body text-[14px] font-bold text-text-dark outline-none transition-colors focus:border-orange"
+                                      />
+                                    </label>
+                                    <button
+                                      type="submit"
+                                      className="mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-green-deep px-6 py-3 font-body text-[13px] font-extrabold text-white transition-colors hover:bg-[#1b3d23]"
+                                    >
+                                      Save changes
+                                    </button>
+                                  </form>
+                                </div>
+                              </details>
+                              <form action={deleteChildProfile}>
+                                <input type="hidden" name="childId" value={child.id} />
+                                <button
+                                  type="submit"
+                                  className="inline-flex min-h-10 items-center justify-center rounded-full border border-[#efe2cf] px-5 py-2 font-body text-[12px] font-extrabold text-orange transition-colors hover:border-orange"
+                                >
+                                  Remove
+                                </button>
+                              </form>
+                            </div>
                           </div>
                         ))
                       ) : (

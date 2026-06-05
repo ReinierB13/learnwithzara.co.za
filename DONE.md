@@ -29,3 +29,4 @@
 - Updated the header My Account links to open `/account`.
 - Added child profile creation, listing, and removal inside `/account`.
 - Collapsed the add-child form behind a plus control in the Children profiles section.
+- Added a pencil edit control for updating saved child details.
