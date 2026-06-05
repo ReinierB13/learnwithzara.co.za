@@ -271,6 +271,14 @@ export default async function AccountPage({ searchParams }: AccountPageProps) {
                       <p className="mt-2 font-body text-[15px] font-bold leading-[1.5] text-text-muted">
                         {user.email}
                       </p>
+                      {user.role === "ADMIN" && (
+                        <Link
+                          href="/admin"
+                          className="mt-4 inline-flex min-h-11 items-center justify-center rounded-full bg-green-deep px-6 py-3 font-body text-[13px] font-extrabold text-white transition-colors hover:bg-[#1b3d23]"
+                        >
+                          Open admin
+                        </Link>
+                      )}
                     </div>
                     <form action={logoutAccount}>
                       <button

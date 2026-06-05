@@ -33,3 +33,7 @@
 - Added the official support email `learnwithzara@outlook.com` to contact and policy pages.
 - Cleaned up FAQ contact formatting so email and website links sit beside their labels.
 - Cleaned up Shipping & Delivery contact formatting so the website link sits beside its label.
+- Installed `@vercel/blob` for durable admin PDF uploads.
+- Added a protected `/admin` catalog manager for subjects, grades, courses, and product PDF uploads.
+- Added the admin catalog schema in `db/002_admin_catalog.sql`.
+- Added an admin-only dashboard link from `/account`.

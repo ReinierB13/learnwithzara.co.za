@@ -63,10 +63,14 @@ npm run lint
 | `src/components/MeetZara.tsx` | Brand mascot and learner-friendly story section. |
 | `src/components/NewsletterSignup.tsx` | Email signup/contact area. |
 | `src/app/api/newsletter/route.ts` | API route that validates and stores newsletter emails. |
+| `src/app/admin/page.tsx` | Protected admin catalog manager for subjects, grades, courses, and product uploads. |
+| `src/app/admin/actions.ts` | Admin-only server actions for catalog creation and PDF uploads. |
 | `src/lib/db.ts` | Neon database client helper. |
 | `src/lib/auth.ts` | Password hashing, signed session cookies, and current-user lookup. |
+| `src/lib/admin-catalog.ts` | Admin catalog schema guard and dashboard queries. |
 | `src/components/Footer.tsx` | Footer navigation and social placeholders. |
 | `db/001_core_schema.sql` | Core account, commerce, download, free resource, and email subscriber schema. |
+| `db/002_admin_catalog.sql` | Admin catalog schema for subjects, grades, courses, and course-product links. |
 | `db/newsletter_subscribers.sql` | Legacy newsletter subscriber table schema. |
 | `public/Calender_Free_download_QR_code.png` | Free printable school calendar lead magnet. |
 | `public/tab_icon.png` | Browser tab icon for the site. |
@@ -80,13 +84,14 @@ Create a local `.env.local` file with the Neon connection string:
 ```bash
 DATABASE_URL=postgresql://USER:PASSWORD@HOST/DATABASE?sslmode=require
 AUTH_SECRET=replace-with-a-long-random-secret
+BLOB_READ_WRITE_TOKEN=vercel-blob-token-for-pdf-uploads
 ```
 
-Set the same `DATABASE_URL` and `AUTH_SECRET` in the production hosting environment before deploying account or newsletter changes.
+Set the same `DATABASE_URL`, `AUTH_SECRET`, and `BLOB_READ_WRITE_TOKEN` in the production hosting environment before deploying account, newsletter, or admin upload changes.
 
 ## Database
 
-Core tables are defined in `db/001_core_schema.sql`.
+Core tables are defined in `db/001_core_schema.sql`. Admin catalog tables are defined in `db/002_admin_catalog.sql`.
 
 The schema includes:
 
@@ -116,6 +121,29 @@ The API route at `/api/newsletter`:
 - normalizes emails to lowercase
 - creates the `email_subscribers` table and unique email index if they do not already exist
 - upserts repeat signups instead of creating duplicates
+
+## Admin Catalog
+
+The admin dashboard is available at `/admin` for signed-in users with `role = 'ADMIN'`.
+
+It currently supports:
+
+- creating subjects
+- managing grade labels
+- creating courses by subject and grade
+- uploading product PDFs to Vercel Blob
+- storing product metadata in the existing `products` table
+- linking uploaded products to courses
+
+To promote an account to admin, update the matching user row in Postgres:
+
+```sql
+UPDATE users
+SET role = 'ADMIN'
+WHERE lower(email) = lower('you@example.com');
+```
+
+PDF uploads require a Vercel Blob store and `BLOB_READ_WRITE_TOKEN`.
 
 ## Account Foundation
 
