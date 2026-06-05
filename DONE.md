@@ -37,3 +37,4 @@
 - Added a protected `/admin` catalog manager for subjects, grades, courses, and product PDF uploads.
 - Added the admin catalog schema in `db/002_admin_catalog.sql`.
 - Added an admin-only dashboard link from `/account`.
+- Collapsed admin subject and grade forms behind plus controls.

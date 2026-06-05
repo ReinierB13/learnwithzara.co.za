@@ -104,6 +104,41 @@ function SubmitButton({ children }: { children: ReactNode }) {
   );
 }
 
+function CollapsiblePanel({
+  title,
+  count,
+  children,
+}: {
+  title: string;
+  count: number;
+  children: ReactNode;
+}) {
+  return (
+    <details className="group rounded-[18px] border border-[#efe2cf] bg-white/82 px-7 py-6 shadow-[0_8px_22px_rgba(83,55,24,0.10)]">
+      <summary className="flex cursor-pointer list-none flex-col gap-3 sm:flex-row sm:items-start sm:justify-between [&::-webkit-details-marker]:hidden">
+        <div>
+          <h2 className="font-heading text-[28px] font-bold text-green-deep">
+            {title}
+          </h2>
+          <p className="mt-2 font-body text-[14px] font-bold leading-[1.45] text-text-muted">
+            Open this when you need to add or update {title.toLowerCase()}.
+          </p>
+        </div>
+        <div className="flex items-center gap-3">
+          <span className="rounded-full bg-beige px-4 py-2 text-center font-body text-[12px] font-extrabold text-orange">
+            {count} saved
+          </span>
+          <span className="flex h-11 w-11 items-center justify-center rounded-full bg-orange text-[28px] font-bold leading-none text-white shadow-[0_10px_20px_rgba(233,91,11,0.22)] transition-colors group-hover:bg-[#cf4f08]">
+            <span className="mb-1 group-open:hidden">+</span>
+            <span className="hidden group-open:block">-</span>
+          </span>
+        </div>
+      </summary>
+      <div className="mt-6">{children}</div>
+    </details>
+  );
+}
+
 export default async function AdminPage({ searchParams }: AdminPageProps) {
   const params = (await searchParams) || {};
   const message = getStringParam(params, "message");
@@ -222,70 +257,68 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
 
             <div className="mt-7 grid grid-cols-1 gap-6 lg:grid-cols-[0.82fr_1.18fr]">
               <div className="flex flex-col gap-6">
-                <form
-                  action={createSubject}
-                  className="rounded-[18px] border border-[#efe2cf] bg-white/82 px-7 py-6 shadow-[0_8px_22px_rgba(83,55,24,0.10)]"
-                >
-                  <h2 className="font-heading text-[28px] font-bold text-green-deep">
-                    Subjects
-                  </h2>
-                  <div className="mt-5 grid grid-cols-1 gap-4">
-                    <Input label="Subject name" name="name" placeholder="Maths" />
-                    <Input
-                      label="Slug optional"
-                      name="slug"
-                      required={false}
-                      placeholder="maths"
-                    />
-                    <Checkbox label="Active" name="isActive" />
-                  </div>
-                  <div className="mt-5">
-                    <SubmitButton>Save subject</SubmitButton>
-                  </div>
-                </form>
+                <CollapsiblePanel title="Subjects" count={subjects.length}>
+                  <form action={createSubject}>
+                    <div className="grid grid-cols-1 gap-4">
+                      <Input label="Subject name" name="name" placeholder="Maths" />
+                      <Input
+                        label="Slug optional"
+                        name="slug"
+                        required={false}
+                        placeholder="maths"
+                      />
+                      <Checkbox label="Active" name="isActive" />
+                    </div>
+                    <div className="mt-5">
+                      <SubmitButton>Save subject</SubmitButton>
+                    </div>
+                  </form>
+                </CollapsiblePanel>
 
-                <form
-                  action={createGrade}
-                  className="rounded-[18px] border border-[#efe2cf] bg-white/82 px-7 py-6 shadow-[0_8px_22px_rgba(83,55,24,0.10)]"
-                >
-                  <h2 className="font-heading text-[28px] font-bold text-green-deep">
-                    Grades
-                  </h2>
-                  <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-3">
-                    <label className="flex flex-col gap-2 font-body text-[13px] font-extrabold text-text-dark">
-                      Code
-                      <select
-                        name="code"
-                        defaultValue="R"
-                        className="min-h-12 rounded-[14px] border border-[#efe2cf] bg-white px-4 py-3 font-body text-[14px] font-bold text-text-dark outline-none transition-colors focus:border-orange"
-                      >
-                        {["R", "1", "2", "3", "4", "5", "6", "7"].map((grade) => (
-                          <option key={grade} value={grade}>
-                            {grade}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                    <Input label="Label" name="label" defaultValue="Grade R" />
-                    <Input
-                      label="Order"
-                      name="sortOrder"
-                      type="number"
-                      defaultValue="0"
-                    />
-                  </div>
-                  <div className="mt-4">
-                    <Checkbox label="Active" name="isActive" />
-                  </div>
-                  <div className="mt-5">
-                    <SubmitButton>Save grade</SubmitButton>
-                  </div>
-                </form>
+                <CollapsiblePanel title="Grades" count={grades.length}>
+                  <form action={createGrade}>
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                      <label className="flex flex-col gap-2 font-body text-[13px] font-extrabold text-text-dark">
+                        Code
+                        <select
+                          name="code"
+                          defaultValue="R"
+                          className="min-h-12 rounded-[14px] border border-[#efe2cf] bg-white px-4 py-3 font-body text-[14px] font-bold text-text-dark outline-none transition-colors focus:border-orange"
+                        >
+                          {["R", "1", "2", "3", "4", "5", "6", "7"].map((grade) => (
+                            <option key={grade} value={grade}>
+                              {grade}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                      <Input label="Label" name="label" defaultValue="Grade R" />
+                      <Input
+                        label="Order"
+                        name="sortOrder"
+                        type="number"
+                        defaultValue="0"
+                      />
+                    </div>
+                    <div className="mt-4">
+                      <Checkbox label="Active" name="isActive" />
+                    </div>
+                    <div className="mt-5">
+                      <SubmitButton>Save grade</SubmitButton>
+                    </div>
+                  </form>
+                </CollapsiblePanel>
 
                 <section className="rounded-[18px] border border-[#efe2cf] bg-beige px-7 py-6">
                   <h2 className="font-heading text-[28px] font-bold text-green-deep">
-                    Current Subjects
+                    Current Catalog
                   </h2>
+                  <p className="mt-2 font-body text-[14px] font-bold leading-[1.45] text-text-muted">
+                    Subjects and grades available for courses and products.
+                  </p>
+                  <h3 className="mt-5 font-body text-[13px] font-extrabold uppercase tracking-wide text-text-muted">
+                    Subjects
+                  </h3>
                   <div className="mt-5 flex flex-wrap gap-2">
                     {subjects.length > 0 ? (
                       subjects.map((subject) => (
@@ -301,6 +334,19 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                         No subjects yet.
                       </p>
                     )}
+                  </div>
+                  <h3 className="mt-6 font-body text-[13px] font-extrabold uppercase tracking-wide text-text-muted">
+                    Grades
+                  </h3>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {grades.map((grade) => (
+                      <span
+                        key={grade.id}
+                        className="rounded-full bg-white px-4 py-2 font-body text-[12px] font-extrabold text-green-deep"
+                      >
+                        {grade.label}
+                      </span>
+                    ))}
                   </div>
                 </section>
               </div>
