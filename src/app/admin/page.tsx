@@ -387,62 +387,58 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               </div>
 
               <div className="flex flex-col gap-6">
-                <form
-                  action={createCourse}
-                  className="rounded-[18px] border border-[#efe2cf] bg-white/82 px-7 py-6 shadow-[0_8px_22px_rgba(83,55,24,0.10)]"
-                >
-                  <h2 className="font-heading text-[28px] font-bold text-green-deep">
-                    Create Course
-                  </h2>
-                  <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <Input label="Course title" name="title" />
-                    <Input
-                      label="Slug optional"
-                      name="slug"
-                      required={false}
-                      placeholder="grade-1-maths"
-                    />
-                    <label className="flex flex-col gap-2 font-body text-[13px] font-extrabold text-text-dark">
-                      Subject
-                      <select
-                        name="subjectId"
-                        required
-                        className="min-h-12 rounded-[14px] border border-[#efe2cf] bg-white px-4 py-3 font-body text-[14px] font-bold text-text-dark outline-none transition-colors focus:border-orange"
-                      >
-                        <option value="">Choose subject</option>
-                        {subjects.map((subject) => (
-                          <option key={subject.id} value={subject.id}>
-                            {subject.name}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                    <label className="flex flex-col gap-2 font-body text-[13px] font-extrabold text-text-dark">
-                      Grade
-                      <select
-                        name="gradeId"
-                        required
-                        className="min-h-12 rounded-[14px] border border-[#efe2cf] bg-white px-4 py-3 font-body text-[14px] font-bold text-text-dark outline-none transition-colors focus:border-orange"
-                      >
-                        <option value="">Choose grade</option>
-                        {grades.map((grade) => (
-                          <option key={grade.id} value={grade.id}>
-                            {grade.label}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                  </div>
-                  <div className="mt-4">
-                    <Textarea label="Description" name="description" />
-                  </div>
-                  <div className="mt-4">
-                    <Checkbox label="Active" name="isActive" />
-                  </div>
-                  <div className="mt-5">
-                    <SubmitButton>Save course</SubmitButton>
-                  </div>
-                </form>
+                <CollapsiblePanel title="Courses" count={courses.length}>
+                  <form action={createCourse}>
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      <Input label="Course title" name="title" />
+                      <Input
+                        label="Slug optional"
+                        name="slug"
+                        required={false}
+                        placeholder="grade-1-maths"
+                      />
+                      <label className="flex flex-col gap-2 font-body text-[13px] font-extrabold text-text-dark">
+                        Subject
+                        <select
+                          name="subjectId"
+                          required
+                          className="min-h-12 rounded-[14px] border border-[#efe2cf] bg-white px-4 py-3 font-body text-[14px] font-bold text-text-dark outline-none transition-colors focus:border-orange"
+                        >
+                          <option value="">Choose subject</option>
+                          {subjects.map((subject) => (
+                            <option key={subject.id} value={subject.id}>
+                              {subject.name}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                      <label className="flex flex-col gap-2 font-body text-[13px] font-extrabold text-text-dark">
+                        Grade
+                        <select
+                          name="gradeId"
+                          required
+                          className="min-h-12 rounded-[14px] border border-[#efe2cf] bg-white px-4 py-3 font-body text-[14px] font-bold text-text-dark outline-none transition-colors focus:border-orange"
+                        >
+                          <option value="">Choose grade</option>
+                          {grades.map((grade) => (
+                            <option key={grade.id} value={grade.id}>
+                              {grade.label}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                    </div>
+                    <div className="mt-4">
+                      <Textarea label="Description" name="description" />
+                    </div>
+                    <div className="mt-4">
+                      <Checkbox label="Active" name="isActive" />
+                    </div>
+                    <div className="mt-5">
+                      <SubmitButton>Save course</SubmitButton>
+                    </div>
+                  </form>
+                </CollapsiblePanel>
 
                 <form
                   action={createProduct}

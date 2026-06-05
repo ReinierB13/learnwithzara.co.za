@@ -27,6 +27,10 @@ function slugify(value: string) {
     .slice(0, 80);
 }
 
+function gradeFolder(grade: string) {
+  return `grade-${grade.toLowerCase()}`;
+}
+
 function redirectAdmin(type: "error" | "message", message: string): never {
   redirect(`/admin?${type}=${encodeURIComponent(message)}`);
 }
@@ -224,7 +228,7 @@ export async function createProduct(formData: FormData) {
 
   try {
     fileUrl = await uploadFileToR2({
-      key: `products/${slug}-${Date.now()}.pdf`,
+      key: `${gradeFolder(grade)}/${slugify(subject)}/${slug}-${Date.now()}.pdf`,
       file,
       contentType: file.type || "application/pdf",
     });

@@ -148,7 +148,7 @@ SET role = 'ADMIN'
 WHERE lower(email) = lower('you@example.com');
 ```
 
-PDF uploads require a Cloudflare R2 bucket with S3 API credentials. Uploaded products are stored under the `products/` prefix and the public R2 URL is saved in the `products.file_url` column.
+PDF uploads require a Cloudflare R2 bucket with S3 API credentials. Uploaded products are stored under grade and subject prefixes such as `grade-r/maths/` and the public R2 URL is saved in the `products.file_url` column.
 
 ## Account Foundation
 
