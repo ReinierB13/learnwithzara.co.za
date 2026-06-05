@@ -240,12 +240,20 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 </h1>
                 <div className="mt-5 h-[3px] w-20 rounded-full bg-orange" />
               </div>
-              <Link
-                href="/account"
-                className="inline-flex font-body text-[14px] font-extrabold text-orange hover:underline"
-              >
-                Back to My Account
-              </Link>
+              <div className="flex flex-wrap gap-4 md:justify-end">
+                <Link
+                  href="/products-test"
+                  className="inline-flex font-body text-[14px] font-extrabold text-orange hover:underline"
+                >
+                  Test product page
+                </Link>
+                <Link
+                  href="/account"
+                  className="inline-flex font-body text-[14px] font-extrabold text-orange hover:underline"
+                >
+                  Back to My Account
+                </Link>
+              </div>
             </div>
 
             {(message || error) && (

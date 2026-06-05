@@ -46,3 +46,4 @@
 - Collapsed the admin course form behind a plus control.
 - Updated R2 product upload paths to use grade and subject folders.
 - Improved admin R2 upload errors when the Access Key ID is incorrect.
+- Added `/products-test` to display uploaded products and prototype basket testing.

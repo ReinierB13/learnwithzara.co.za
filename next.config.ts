@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "pub-68019f01cee142348aa3e9e8cbf6b13b.r2.dev",
-        pathname: "/calendar/**",
+        pathname: "/**",
       },
     ],
   },
