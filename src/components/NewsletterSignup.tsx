@@ -6,12 +6,12 @@ import Image from "next/image";
 const CALENDARS = [
   {
     year: "2026",
-    href: "/Calender_Free_download_QR_code.png",
+    href: "https://pub-68019f01cee142348aa3e9e8cbf6b13b.r2.dev/calendar/calendar_free_2026.png",
     alt: "2026 South African public school calendar printable",
   },
   {
     year: "2027",
-    href: "/Calender_Free_download_QR_code_2027.png",
+    href: "https://pub-68019f01cee142348aa3e9e8cbf6b13b.r2.dev/calendar/calendar_free_2027.png",
     alt: "2027 South African public school calendar printable",
   },
 ];

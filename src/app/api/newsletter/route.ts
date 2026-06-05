@@ -2,6 +2,10 @@ import { NextResponse } from "next/server";
 import { getSql } from "@/lib/db";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const CALENDAR_2026_URL =
+  "https://pub-68019f01cee142348aa3e9e8cbf6b13b.r2.dev/calendar/calendar_free_2026.png";
+const CALENDAR_2027_URL =
+  "https://pub-68019f01cee142348aa3e9e8cbf6b13b.r2.dev/calendar/calendar_free_2027.png";
 const SOURCE_MAP = new Map([
   ["calendar_download", "calendar"],
   ["newsletter_form", "footer"],
@@ -93,14 +97,11 @@ export async function POST(request: Request) {
       subscriber: subscribers[0],
       downloadUrl:
         source === "calendar"
-          ? "/Calender_Free_download_QR_code.png"
+          ? CALENDAR_2026_URL
           : null,
       downloadUrls:
         source === "calendar"
-          ? [
-              "/Calender_Free_download_QR_code.png",
-              "/Calender_Free_download_QR_code_2027.png",
-            ]
+          ? [CALENDAR_2026_URL, CALENDAR_2027_URL]
           : [],
     });
   } catch (error) {

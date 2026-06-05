@@ -40,3 +40,4 @@
 - Collapsed admin subject and grade forms behind plus controls.
 - Increased admin PDF upload body limit to 25 MB and added friendlier upload error messages.
 - Added graceful admin catalog load handling and an admin route error boundary.
+- Updated 2026 and 2027 calendar downloads to use Cloudflare R2 URLs.
