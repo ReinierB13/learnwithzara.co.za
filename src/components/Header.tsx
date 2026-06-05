@@ -60,7 +60,8 @@ export default function Header() {
         </nav>
 
         <div className="ml-auto flex items-center gap-5">
-          <button
+          <Link
+            href="/basket"
             aria-label="Cart"
             className="relative hidden h-10 w-10 items-center justify-center text-green-deep transition-colors hover:text-orange md:flex"
           >
@@ -80,7 +81,7 @@ export default function Header() {
             <span className="absolute -right-1 top-0 flex h-5 w-5 items-center justify-center rounded-full bg-orange text-[10px] font-extrabold text-white">
               0
             </span>
-          </button>
+          </Link>
           <Link
             href="/account"
             className="hidden items-center rounded-full bg-orange px-8 py-4 font-body text-[15px] font-extrabold text-white shadow-[0_10px_20px_rgba(233,91,11,0.22)] transition-colors hover:bg-[#cf4f08] md:inline-flex"
@@ -124,6 +125,13 @@ export default function Header() {
             onClick={() => setMenuOpen(false)}
           >
             My Account
+          </Link>
+          <Link
+            href="/basket"
+            className="inline-flex items-center justify-center rounded-full border border-beige px-4 py-2 font-body text-sm font-extrabold text-green-deep transition-colors hover:border-orange hover:text-orange"
+            onClick={() => setMenuOpen(false)}
+          >
+            Basket
           </Link>
         </div>
       )}

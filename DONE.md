@@ -47,3 +47,4 @@
 - Updated R2 product upload paths to use grade and subject folders.
 - Improved admin R2 upload errors when the Access Key ID is incorrect.
 - Added `/products-test` to display uploaded products and prototype basket testing.
+- Added `/basket` with browser-stored test cart items, quantity controls, and basket summary.
