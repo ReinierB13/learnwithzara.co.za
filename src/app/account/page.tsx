@@ -286,20 +286,67 @@ export default async function AccountPage({ searchParams }: AccountPageProps) {
 
                 <div className="mt-7 grid grid-cols-1 gap-5 lg:grid-cols-[1.1fr_0.9fr]">
                   <section className="rounded-[18px] border border-[#efe2cf] bg-beige px-7 py-6">
-                    <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-                      <div>
-                        <h3 className="font-heading text-[26px] font-bold text-green-deep">
-                          Children profiles
-                        </h3>
-                        <p className="mt-2 font-body text-[14px] font-bold leading-[1.5] text-text-dark">
-                          Add each learner so we can recommend grade and language
-                          specific resources as the library grows.
-                        </p>
-                      </div>
-                      <span className="rounded-full bg-white px-4 py-2 text-center font-body text-[12px] font-extrabold text-orange">
-                        {children.length} saved
-                      </span>
-                    </div>
+                    <details className="group">
+                      <summary className="flex cursor-pointer list-none flex-col gap-3 sm:flex-row sm:items-start sm:justify-between [&::-webkit-details-marker]:hidden">
+                        <div>
+                          <h3 className="font-heading text-[26px] font-bold text-green-deep">
+                            Children profiles
+                          </h3>
+                          <p className="mt-2 font-body text-[14px] font-bold leading-[1.5] text-text-dark">
+                            Add each learner so we can recommend grade and
+                            language specific resources as the library grows.
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <span className="rounded-full bg-white px-4 py-2 text-center font-body text-[12px] font-extrabold text-orange">
+                            {children.length} saved
+                          </span>
+                          <span className="flex h-11 w-11 items-center justify-center rounded-full bg-orange text-[28px] font-bold leading-none text-white shadow-[0_10px_20px_rgba(233,91,11,0.22)] transition-colors group-hover:bg-[#cf4f08]">
+                            <span className="mb-1 group-open:hidden">+</span>
+                            <span className="hidden group-open:block">-</span>
+                            <span className="sr-only">Add child</span>
+                          </span>
+                        </div>
+                      </summary>
+
+                      <form
+                        action={addChildProfile}
+                        className="mt-6 rounded-[16px] border border-white/70 bg-white/55 px-5 py-5"
+                      >
+                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                          <Field label="First name" name="firstName" autoComplete="off" />
+                          <Field label="Last name" name="lastName" autoComplete="off" />
+                          <SelectField
+                            label="Grade"
+                            name="grade"
+                            defaultValue="R"
+                            options={["R", "1", "2", "3", "4", "5", "6", "7"]}
+                          />
+                          <SelectField
+                            label="Language"
+                            name="language"
+                            defaultValue="English"
+                            options={["English", "Afrikaans"]}
+                          />
+                        </div>
+                        <div className="mt-4">
+                          <label className="flex flex-col gap-2 font-body text-[13px] font-extrabold text-text-dark">
+                            School name optional
+                            <input
+                              name="schoolName"
+                              type="text"
+                              className="min-h-12 rounded-[14px] border border-[#efe2cf] bg-white px-4 py-3 font-body text-[14px] font-bold text-text-dark outline-none transition-colors focus:border-orange"
+                            />
+                          </label>
+                        </div>
+                        <button
+                          type="submit"
+                          className="mt-5 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-green-deep px-7 py-3 font-body text-[14px] font-extrabold text-white shadow-[0_10px_20px_rgba(36,76,45,0.24)] transition-colors hover:bg-[#1b3d23]"
+                        >
+                          Add child
+                        </button>
+                      </form>
+                    </details>
 
                     {childError && (
                       <p className="mt-5 rounded-[12px] bg-white px-4 py-3 font-body text-[13px] font-extrabold text-orange">
@@ -311,41 +358,6 @@ export default async function AccountPage({ searchParams }: AccountPageProps) {
                         {childSaved}
                       </p>
                     )}
-
-                    <form action={addChildProfile} className="mt-6">
-                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                        <Field label="First name" name="firstName" autoComplete="off" />
-                        <Field label="Last name" name="lastName" autoComplete="off" />
-                        <SelectField
-                          label="Grade"
-                          name="grade"
-                          defaultValue="R"
-                          options={["R", "1", "2", "3", "4", "5", "6", "7"]}
-                        />
-                        <SelectField
-                          label="Language"
-                          name="language"
-                          defaultValue="English"
-                          options={["English", "Afrikaans"]}
-                        />
-                      </div>
-                      <div className="mt-4">
-                        <label className="flex flex-col gap-2 font-body text-[13px] font-extrabold text-text-dark">
-                          School name optional
-                          <input
-                            name="schoolName"
-                            type="text"
-                            className="min-h-12 rounded-[14px] border border-[#efe2cf] bg-white px-4 py-3 font-body text-[14px] font-bold text-text-dark outline-none transition-colors focus:border-orange"
-                          />
-                        </label>
-                      </div>
-                      <button
-                        type="submit"
-                        className="mt-5 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-green-deep px-7 py-3 font-body text-[14px] font-extrabold text-white shadow-[0_10px_20px_rgba(36,76,45,0.24)] transition-colors hover:bg-[#1b3d23]"
-                      >
-                        Add child
-                      </button>
-                    </form>
 
                     <div className="mt-7 flex flex-col gap-3">
                       {children.length > 0 ? (
