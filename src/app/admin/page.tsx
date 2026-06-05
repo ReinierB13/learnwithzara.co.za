@@ -3,7 +3,13 @@ import type { ReactNode } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { getCurrentUser } from "@/lib/auth";
-import { getAdminCatalog } from "@/lib/admin-catalog";
+import {
+  type AdminCourse,
+  type AdminGrade,
+  type AdminProduct,
+  type AdminSubject,
+  getAdminCatalog,
+} from "@/lib/admin-catalog";
 import { createCourse, createGrade, createProduct, createSubject } from "./actions";
 
 type AdminPageProps = {
@@ -199,7 +205,23 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     );
   }
 
-  const { subjects, grades, courses, products } = await getAdminCatalog();
+  let catalogError = "";
+  let subjects: AdminSubject[] = [];
+  let grades: AdminGrade[] = [];
+  let courses: AdminCourse[] = [];
+  let products: AdminProduct[] = [];
+
+  try {
+    const catalog = await getAdminCatalog();
+    subjects = catalog.subjects;
+    grades = catalog.grades;
+    courses = catalog.courses;
+    products = catalog.products;
+  } catch (error) {
+    console.error("Admin catalog failed to load", error);
+    catalogError =
+      "The admin catalog could not load from the database. Please check the Vercel function logs and database schema.";
+  }
 
   return (
     <>
@@ -232,6 +254,11 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 }`}
               >
                 {error || message}
+              </p>
+            )}
+            {catalogError && (
+              <p className="mt-7 rounded-[14px] bg-white px-5 py-4 font-body text-[14px] font-extrabold text-orange">
+                {catalogError}
               </p>
             )}
             {!blobUploadsReady && (
