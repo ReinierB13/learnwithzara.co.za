@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-[548px] overflow-hidden">
+    <section className="relative min-h-[720px] overflow-hidden md:min-h-[548px]">
       <Image
         src="/images/backgrounds/hero.png"
         alt="African Kalahari savanna landscape"
@@ -12,11 +12,11 @@ export default function Hero() {
         className="object-cover object-center"
         priority
       />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,#fff8ee_0%,#fff8ee_18%,rgba(255,248,238,0.92)_29%,rgba(255,248,238,0.42)_42%,rgba(255,248,238,0)_58%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,#fff8ee_0%,rgba(255,248,238,0.96)_44%,rgba(255,248,238,0.42)_72%,rgba(255,248,238,0)_100%)] md:bg-[linear-gradient(90deg,#fff8ee_0%,#fff8ee_18%,rgba(255,248,238,0.92)_29%,rgba(255,248,238,0.42)_42%,rgba(255,248,238,0)_58%)]" />
       <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-cream to-transparent" />
 
-      <div className="relative z-10 mx-auto flex min-h-[548px] max-w-[1180px] items-center px-8 pt-[106px]">
-        <div className="w-full max-w-[500px] pb-8">
+      <div className="relative z-10 mx-auto flex min-h-[720px] max-w-[1180px] items-start px-8 pt-[112px] md:min-h-[548px] md:items-center md:pt-[106px]">
+        <div className="w-full max-w-[500px] pb-[230px] md:pb-8">
           <h1 className="font-heading leading-[0.92]">
             <span className="block text-[78px] font-bold tracking-normal text-orange md:text-[82px]">
               LEARN
@@ -63,7 +63,7 @@ export default function Hero() {
           alt="Zara the bat-eared fox mascot"
           width={300}
           height={400}
-          className="absolute bottom-[34px] right-[120px] hidden h-[320px] w-auto object-contain drop-shadow-[0_16px_18px_rgba(65,36,12,0.28)] md:block"
+          className="absolute bottom-[30px] right-[18px] h-[210px] w-auto object-contain drop-shadow-[0_16px_18px_rgba(65,36,12,0.28)] md:bottom-[34px] md:right-[120px] md:h-[320px]"
           style={{ width: "auto" }}
           priority
         />

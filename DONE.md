@@ -50,3 +50,4 @@
 - Added `/basket` with browser-stored test cart items, quantity controls, and basket summary.
 - Kept product add-to-basket actions on `/products-test` and added running basket counts.
 - Added `/checkout-test` to simulate paid orders and preview generated customer email content.
+- Made Zara visible in the homepage hero on mobile screens.
