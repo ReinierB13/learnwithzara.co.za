@@ -93,8 +93,13 @@ export default function RefundPolicyPage() {
                   at:
                 </p>
                 <p>
-                  <strong className="text-green-deep">Email:</strong> [Insert
-                  Support Email]
+                  <strong className="text-green-deep">Email:</strong>{" "}
+                  <a
+                    href="mailto:learnwithzara@outlook.com"
+                    className="text-orange underline hover:text-[#cf4f08]"
+                  >
+                    learnwithzara@outlook.com
+                  </a>
                 </p>
                 <p>
                   <strong className="text-green-deep">Website:</strong>{" "}

@@ -99,6 +99,15 @@ export default function NewsletterSignup() {
             Includes term dates, school holidays, public holidays and space for
             parent notes.
           </p>
+          <p className="mx-auto mt-3 max-w-[430px] font-body text-[13px] font-bold leading-[1.4] text-white/95 md:mx-0">
+            Questions? Email{" "}
+            <a
+              href="mailto:learnwithzara@outlook.com"
+              className="underline decoration-white/70 underline-offset-4 hover:text-white"
+            >
+              learnwithzara@outlook.com
+            </a>
+          </p>
 
           {submitted ? (
             <div className="mt-6 flex flex-col items-center gap-3 md:items-start">

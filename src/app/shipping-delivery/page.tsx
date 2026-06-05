@@ -94,6 +94,15 @@ export default function ShippingDeliveryPage() {
                   If you have questions about a download or delivery issue,
                   please contact us through the Contact page on our website.
                 </p>
+                <p>
+                  <strong className="text-green-deep">Email:</strong>{" "}
+                  <a
+                    href="mailto:learnwithzara@outlook.com"
+                    className="text-orange underline hover:text-[#cf4f08]"
+                  >
+                    learnwithzara@outlook.com
+                  </a>
+                </p>
                 <p>Website:</p>
                 <p>
                   <Link
