@@ -17,3 +17,7 @@
 - Updated the footer FAQs link to open the new page.
 - Added a dedicated `/shipping-delivery` page for digital delivery details.
 - Updated the footer Shipping & Delivery link to open the new page.
+
+## 2026-06-05
+
+- Installed `@vercel/analytics` and added the Vercel Analytics component to the root layout.
