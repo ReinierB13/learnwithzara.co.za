@@ -10,6 +10,7 @@ import {
   type AdminSubject,
   getAdminCatalog,
 } from "@/lib/admin-catalog";
+import { r2UploadsReady } from "@/lib/r2";
 import { createCourse, createGrade, createProduct, createSubject } from "./actions";
 
 type AdminPageProps = {
@@ -150,7 +151,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const message = getStringParam(params, "message");
   const error = getStringParam(params, "error");
   const user = await getCurrentUser();
-  const blobUploadsReady = Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+  const uploadsReady = r2UploadsReady();
 
   if (!user) {
     return (
@@ -261,9 +262,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 {catalogError}
               </p>
             )}
-            {!blobUploadsReady && (
+            {!uploadsReady && (
               <p className="mt-7 rounded-[14px] bg-white px-5 py-4 font-body text-[14px] font-extrabold text-orange">
-                PDF uploads need `BLOB_READ_WRITE_TOKEN` in the environment before
+                PDF uploads need the Cloudflare R2 environment variables before
                 they can work.
               </p>
             )}
@@ -546,7 +547,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                     <Checkbox label="Active" name="isActive" />
                   </div>
                   <p className="mt-4 font-body text-[13px] font-bold leading-[1.45] text-text-muted">
-                    PDF uploads require `BLOB_READ_WRITE_TOKEN` and can be up to 25 MB.
+                    PDF uploads are stored in Cloudflare R2 and can be up to 25 MB.
                   </p>
                   <div className="mt-5">
                     <SubmitButton>Upload product</SubmitButton>

@@ -68,6 +68,7 @@ npm run lint
 | `src/lib/db.ts` | Neon database client helper. |
 | `src/lib/auth.ts` | Password hashing, signed session cookies, and current-user lookup. |
 | `src/lib/admin-catalog.ts` | Admin catalog schema guard and dashboard queries. |
+| `src/lib/r2.ts` | Cloudflare R2 upload helper for product PDFs. |
 | `src/components/Footer.tsx` | Footer navigation and social placeholders. |
 | `db/001_core_schema.sql` | Core account, commerce, download, free resource, and email subscriber schema. |
 | `db/002_admin_catalog.sql` | Admin catalog schema for subjects, grades, courses, and course-product links. |
@@ -84,10 +85,14 @@ Create a local `.env.local` file with the Neon connection string:
 ```bash
 DATABASE_URL=postgresql://USER:PASSWORD@HOST/DATABASE?sslmode=require
 AUTH_SECRET=replace-with-a-long-random-secret
-BLOB_READ_WRITE_TOKEN=vercel-blob-token-for-pdf-uploads
+R2_ACCOUNT_ID=64ffd5073b3feaf3b9a1cb229a022155
+R2_ACCESS_KEY_ID=cloudflare-r2-access-key
+R2_SECRET_ACCESS_KEY=cloudflare-r2-secret-key
+R2_BUCKET_NAME=cloudflare-r2-bucket-name
+R2_PUBLIC_URL=https://pub-68019f01cee142348aa3e9e8cbf6b13b.r2.dev
 ```
 
-Set the same `DATABASE_URL`, `AUTH_SECRET`, and `BLOB_READ_WRITE_TOKEN` in the production hosting environment before deploying account, newsletter, or admin upload changes.
+Set the same `DATABASE_URL`, `AUTH_SECRET`, and R2 environment variables in the production hosting environment before deploying account, newsletter, or admin upload changes.
 
 ## Database
 
@@ -131,7 +136,7 @@ It currently supports:
 - creating subjects
 - managing grade labels
 - creating courses by subject and grade
-- uploading product PDFs to Vercel Blob
+- uploading product PDFs to Cloudflare R2
 - storing product metadata in the existing `products` table
 - linking uploaded products to courses
 
@@ -143,7 +148,7 @@ SET role = 'ADMIN'
 WHERE lower(email) = lower('you@example.com');
 ```
 
-PDF uploads require a Vercel Blob store and `BLOB_READ_WRITE_TOKEN`.
+PDF uploads require a Cloudflare R2 bucket with S3 API credentials. Uploaded products are stored under the `products/` prefix and the public R2 URL is saved in the `products.file_url` column.
 
 ## Account Foundation
 

@@ -1,11 +1,11 @@
 "use server";
 
-import { put } from "@vercel/blob";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
 import { ensureAdminCatalogSchema } from "@/lib/admin-catalog";
 import { getSql } from "@/lib/db";
+import { uploadFileToR2 } from "@/lib/r2";
 
 const GRADES = new Set(["R", "1", "2", "3", "4", "5", "6", "7"]);
 const PRODUCT_TYPES = new Set(["PDF", "BUNDLE", "ASSESSMENT", "WORKSHEET"]);
@@ -199,10 +199,6 @@ export async function createProduct(formData: FormData) {
     redirectAdmin("error", "Only PDF uploads are supported right now.");
   }
 
-  if (!process.env.BLOB_READ_WRITE_TOKEN) {
-    redirectAdmin("error", "BLOB_READ_WRITE_TOKEN must be configured before PDF uploads can work.");
-  }
-
   const sql = getSql();
   const subjectRows = (await sql`
     SELECT name
@@ -227,17 +223,16 @@ export async function createProduct(formData: FormData) {
   let fileUrl: string;
 
   try {
-    const blob = await put(`products/${slug}-${Date.now()}.pdf`, file, {
-      access: "public",
-      addRandomSuffix: true,
+    fileUrl = await uploadFileToR2({
+      key: `products/${slug}-${Date.now()}.pdf`,
+      file,
+      contentType: file.type || "application/pdf",
     });
-
-    fileUrl = blob.url;
   } catch (error) {
     console.error("Product PDF upload failed", error);
     redirectAdmin(
       "error",
-      "The PDF could not be uploaded. Please check the Vercel Blob token and try again.",
+      "The PDF could not be uploaded to Cloudflare R2. Please check the R2 environment variables and bucket permissions.",
     );
   }
 
