@@ -32,7 +32,7 @@ export default function NewsletterSignup() {
       const response = await fetch("/api/newsletter", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, source: "calendar_download" }),
+        body: JSON.stringify({ email, source: "calendar" }),
       });
 
       const body = await response.json();

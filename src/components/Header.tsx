@@ -82,7 +82,7 @@ export default function Header() {
             </span>
           </button>
           <Link
-            href="/#contact"
+            href="/account"
             className="hidden items-center rounded-full bg-orange px-8 py-4 font-body text-[15px] font-extrabold text-white shadow-[0_10px_20px_rgba(233,91,11,0.22)] transition-colors hover:bg-[#cf4f08] md:inline-flex"
           >
             My Account
@@ -119,7 +119,7 @@ export default function Header() {
             </Link>
           ))}
           <Link
-            href="/#contact"
+            href="/account"
             className="inline-flex items-center justify-center rounded-full bg-orange px-4 py-2 font-body text-sm font-extrabold text-white transition-colors hover:bg-[#c94f03]"
             onClick={() => setMenuOpen(false)}
           >

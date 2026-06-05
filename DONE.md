@@ -21,3 +21,9 @@
 ## 2026-06-05
 
 - Installed `@vercel/analytics` and added the Vercel Analytics component to the root layout.
+- Fixed footer overflow so quick links and copyright no longer overlap.
+- Updated footer copyright year to 2026.
+- Added the core Postgres schema for users, children, products, orders, downloads, email subscribers, free resources, and addresses.
+- Updated newsletter signup storage to use the new `email_subscribers` table.
+- Added account registration, sign in, sign out, and a basic account dashboard shell.
+- Updated the header My Account links to open `/account`.

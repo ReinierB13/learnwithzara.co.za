@@ -18,9 +18,9 @@ const HELP_LINKS = [
 
 export default function Footer() {
   return (
-    <footer className="relative bg-[radial-gradient(circle_at_50%_0%,#2d6735_0%,#244C2D_42%,#193B22_100%)] text-white md:h-[126px] md:overflow-hidden">
-      <div className="mx-auto max-w-[864px] px-0 py-4">
-        <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 md:grid-cols-[210px_1fr_118px_152px_112px] md:items-start md:gap-5">
+    <footer className="bg-[radial-gradient(circle_at_50%_0%,#2d6735_0%,#244C2D_42%,#193B22_100%)] text-white">
+      <div className="mx-auto max-w-[920px] px-6 py-7">
+        <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 md:grid-cols-[210px_minmax(160px,1fr)_130px_165px_112px] md:items-start md:gap-5">
           <div className="flex items-center gap-3">
             <span className="relative flex h-[58px] w-[58px] items-center justify-center overflow-hidden rounded-full bg-[#fff6e7]">
               <Image
@@ -103,7 +103,15 @@ export default function Footer() {
                 aria-label="Instagram"
                 className="flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-green-deep transition-colors hover:bg-white"
               >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="h-5 w-5"
+                >
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
                   <circle cx="12" cy="12" r="4" />
                   <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
@@ -123,10 +131,10 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="pb-3 text-center md:absolute md:bottom-2 md:left-0 md:right-0 md:pb-0">
-        <div className="mx-auto max-w-[1080px] px-6">
+      <div className="border-t border-white/15 text-center">
+        <div className="mx-auto max-w-[920px] px-6 py-3">
           <p className="font-body text-[11px] font-semibold text-white/85">
-            © 2024 Learn with Zara. All rights reserved. <span className="text-orange">♥</span>
+            &copy; 2026 Learn with Zara. All rights reserved.
           </p>
         </div>
       </div>

@@ -16,7 +16,7 @@ https://learnwithzara.co.za
 - Framework: Next.js App Router
 - Styling: Tailwind CSS
 - Language: TypeScript
-- Database: Neon Serverless Postgres for newsletter subscribers
+- Database: Neon Serverless Postgres for accounts, products, orders, downloads, free resources, and email subscribers
 - Primary route: `src/app/page.tsx`
 - Main page sections: header, hero, product cards, trust section, Meet Zara, newsletter signup, and footer
 
@@ -64,8 +64,10 @@ npm run lint
 | `src/components/NewsletterSignup.tsx` | Email signup/contact area. |
 | `src/app/api/newsletter/route.ts` | API route that validates and stores newsletter emails. |
 | `src/lib/db.ts` | Neon database client helper. |
+| `src/lib/auth.ts` | Password hashing, signed session cookies, and current-user lookup. |
 | `src/components/Footer.tsx` | Footer navigation and social placeholders. |
-| `db/newsletter_subscribers.sql` | Newsletter subscriber table schema. |
+| `db/001_core_schema.sql` | Core account, commerce, download, free resource, and email subscriber schema. |
+| `db/newsletter_subscribers.sql` | Legacy newsletter subscriber table schema. |
 | `public/Calender_Free_download_QR_code.png` | Free printable school calendar lead magnet. |
 | `public/tab_icon.png` | Browser tab icon for the site. |
 | `public/images` | Production image assets used by the site. |
@@ -77,13 +79,28 @@ Create a local `.env.local` file with the Neon connection string:
 
 ```bash
 DATABASE_URL=postgresql://USER:PASSWORD@HOST/DATABASE?sslmode=require
+AUTH_SECRET=replace-with-a-long-random-secret
 ```
 
-Set the same `DATABASE_URL` in the production hosting environment before deploying newsletter signup changes.
+Set the same `DATABASE_URL` and `AUTH_SECRET` in the production hosting environment before deploying account or newsletter changes.
 
-## Newsletter Database
+## Database
 
-Newsletter emails are stored in the `newsletter_subscribers` table.
+Core tables are defined in `db/001_core_schema.sql`.
+
+The schema includes:
+
+- `users`
+- `children`
+- `products`
+- `orders`
+- `order_items`
+- `downloads`
+- `email_subscribers`
+- `free_resources`
+- `addresses`
+
+Newsletter and calendar emails are stored in the `email_subscribers` table. The legacy `newsletter_subscribers` table is still documented for older deployments and can be migrated into `email_subscribers` with the core schema migration.
 
 Neon project:
 
@@ -97,8 +114,22 @@ The API route at `/api/newsletter`:
 
 - accepts `POST` requests with `{ "email": "person@example.com" }`
 - normalizes emails to lowercase
-- creates the table and unique email index if they do not already exist
+- creates the `email_subscribers` table and unique email index if they do not already exist
 - upserts repeat signups instead of creating duplicates
+
+## Account Foundation
+
+The My Account button opens `/account`.
+
+The first account version includes:
+
+- account registration for parents and teachers
+- password hashing with Node `crypto.scrypt`
+- signed, HTTP-only session cookies
+- sign in and sign out
+- a dashboard shell with child, order, and download counts
+
+Use `AUTH_SECRET` for signing session cookies. If it is missing, the local fallback uses `DATABASE_URL`, but production should define a dedicated long random secret.
 
 ## Deployment Notes
 
@@ -110,6 +141,6 @@ The API route at `/api/newsletter`:
 ## Content Notes
 
 - Keep copy focused on South African learners, CAPS-aligned resources, and teacher-created materials.
-- Product links currently point to homepage anchors/placeholders until product pages or ecommerce flows are added.
+- Product links currently point to a coming soon page until ecommerce flows are added.
 - The free school calendar is featured on the homepage and unlocked in the UI after newsletter signup.
-- Social, FAQ, shipping, refund, and terms links in the footer are placeholders and should be replaced when those pages/accounts are ready.
+- Social and terms links in the footer are placeholders and should be replaced when those pages/accounts are ready.

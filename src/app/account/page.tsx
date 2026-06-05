@@ -1,0 +1,268 @@
+import Link from "next/link";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import { getCurrentUser } from "@/lib/auth";
+import { getSql } from "@/lib/db";
+import { loginAccount, logoutAccount, registerAccount } from "./actions";
+
+type AccountPageProps = {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+};
+
+async function getAccountStats(userId: number) {
+  const sql = getSql();
+  const rows = (await sql`
+    SELECT
+      (SELECT count(*)::int FROM children WHERE user_id = ${userId}) AS children_count,
+      (SELECT count(*)::int FROM orders WHERE user_id = ${userId}) AS orders_count,
+      (SELECT count(*)::int FROM downloads WHERE user_id = ${userId}) AS downloads_count
+  `) as Array<{
+    children_count: number;
+    orders_count: number;
+    downloads_count: number;
+  }>;
+
+  return rows[0] || { children_count: 0, orders_count: 0, downloads_count: 0 };
+}
+
+function getStringParam(
+  params: Record<string, string | string[] | undefined>,
+  key: string,
+) {
+  const value = params[key];
+  return Array.isArray(value) ? value[0] : value;
+}
+
+function Field({
+  label,
+  name,
+  type = "text",
+  autoComplete,
+}: {
+  label: string;
+  name: string;
+  type?: string;
+  autoComplete?: string;
+}) {
+  return (
+    <label className="flex flex-col gap-2 font-body text-[13px] font-extrabold text-text-dark">
+      {label}
+      <input
+        name={name}
+        type={type}
+        required
+        autoComplete={autoComplete}
+        className="min-h-12 rounded-[14px] border border-[#efe2cf] bg-white px-4 py-3 font-body text-[14px] font-bold text-text-dark outline-none transition-colors focus:border-orange"
+      />
+    </label>
+  );
+}
+
+function AccountForms({
+  mode,
+  error,
+}: {
+  mode: "login" | "register";
+  error?: string;
+}) {
+  return (
+    <div className="grid grid-cols-1 gap-7 md:grid-cols-2">
+      <form
+        action={loginAccount}
+        className={`rounded-[18px] border bg-white/82 px-7 py-6 shadow-[0_8px_22px_rgba(83,55,24,0.10)] ${
+          mode === "login" ? "border-orange" : "border-[#efe2cf]"
+        }`}
+      >
+        <h2 className="font-heading text-[28px] font-bold text-green-deep">
+          Sign in
+        </h2>
+        <p className="mt-2 font-body text-[14px] font-bold leading-[1.45] text-text-muted">
+          Access your downloads, children profiles, and future purchases.
+        </p>
+
+        {mode === "login" && error && (
+          <p className="mt-4 rounded-[12px] bg-beige px-4 py-3 font-body text-[13px] font-extrabold text-orange">
+            {error}
+          </p>
+        )}
+
+        <div className="mt-5 flex flex-col gap-4">
+          <Field label="Email address" name="email" type="email" autoComplete="email" />
+          <Field
+            label="Password"
+            name="password"
+            type="password"
+            autoComplete="current-password"
+          />
+        </div>
+
+        <button
+          type="submit"
+          className="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-orange px-7 py-3 font-body text-[14px] font-extrabold text-white shadow-[0_10px_20px_rgba(233,91,11,0.22)] transition-colors hover:bg-[#cf4f08]"
+        >
+          Sign in
+        </button>
+      </form>
+
+      <form
+        action={registerAccount}
+        className={`rounded-[18px] border bg-white/82 px-7 py-6 shadow-[0_8px_22px_rgba(83,55,24,0.10)] ${
+          mode === "register" ? "border-orange" : "border-[#efe2cf]"
+        }`}
+      >
+        <h2 className="font-heading text-[28px] font-bold text-green-deep">
+          Create account
+        </h2>
+        <p className="mt-2 font-body text-[14px] font-bold leading-[1.45] text-text-muted">
+          Start your Learn With Zara account for family or classroom resources.
+        </p>
+
+        {mode === "register" && error && (
+          <p className="mt-4 rounded-[12px] bg-beige px-4 py-3 font-body text-[13px] font-extrabold text-orange">
+            {error}
+          </p>
+        )}
+
+        <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <Field label="First name" name="firstName" autoComplete="given-name" />
+          <Field label="Last name" name="lastName" autoComplete="family-name" />
+        </div>
+        <div className="mt-4 flex flex-col gap-4">
+          <Field label="Email address" name="email" type="email" autoComplete="email" />
+          <Field
+            label="Password"
+            name="password"
+            type="password"
+            autoComplete="new-password"
+          />
+          <label className="flex flex-col gap-2 font-body text-[13px] font-extrabold text-text-dark">
+            I am a
+            <select
+              name="role"
+              defaultValue="PARENT"
+              className="min-h-12 rounded-[14px] border border-[#efe2cf] bg-white px-4 py-3 font-body text-[14px] font-bold text-text-dark outline-none transition-colors focus:border-orange"
+            >
+              <option value="PARENT">Parent</option>
+              <option value="TEACHER">Teacher</option>
+            </select>
+          </label>
+        </div>
+
+        <button
+          type="submit"
+          className="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-green-deep px-7 py-3 font-body text-[14px] font-extrabold text-white shadow-[0_10px_20px_rgba(36,76,45,0.24)] transition-colors hover:bg-[#1b3d23]"
+        >
+          Create account
+        </button>
+      </form>
+    </div>
+  );
+}
+
+export default async function AccountPage({ searchParams }: AccountPageProps) {
+  const params = (await searchParams) || {};
+  const mode = getStringParam(params, "mode") === "register" ? "register" : "login";
+  const error = getStringParam(params, "error");
+  const user = await getCurrentUser();
+  const stats = user ? await getAccountStats(user.id) : null;
+
+  return (
+    <>
+      <Header />
+      <main className="bg-cream">
+        <section className="px-6 pb-20 pt-32 md:pt-36">
+          <div className="mx-auto max-w-[920px]">
+            <h1 className="font-heading text-[42px] font-bold leading-[0.98] tracking-wide text-green-deep md:text-[56px]">
+              My Account
+            </h1>
+            <div className="mt-5 h-[3px] w-20 rounded-full bg-orange" />
+
+            {user && stats ? (
+              <div className="mt-8">
+                <div className="rounded-[18px] border border-[#efe2cf] bg-white/82 px-7 py-6 shadow-[0_8px_22px_rgba(83,55,24,0.10)]">
+                  <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
+                    <div>
+                      <p className="font-body text-[14px] font-extrabold text-orange">
+                        Signed in as {user.role.toLowerCase()}
+                      </p>
+                      <h2 className="mt-2 font-heading text-[32px] font-bold text-green-deep">
+                        Hello, {user.firstName}
+                      </h2>
+                      <p className="mt-2 font-body text-[15px] font-bold leading-[1.5] text-text-muted">
+                        {user.email}
+                      </p>
+                    </div>
+                    <form action={logoutAccount}>
+                      <button
+                        type="submit"
+                        className="inline-flex min-h-11 items-center justify-center rounded-full bg-orange px-6 py-3 font-body text-[13px] font-extrabold text-white transition-colors hover:bg-[#cf4f08]"
+                      >
+                        Sign out
+                      </button>
+                    </form>
+                  </div>
+                </div>
+
+                <div className="mt-7 grid grid-cols-1 gap-5 md:grid-cols-3">
+                  {[
+                    ["Children", stats.children_count],
+                    ["Orders", stats.orders_count],
+                    ["Downloads", stats.downloads_count],
+                  ].map(([label, value]) => (
+                    <div
+                      key={label}
+                      className="rounded-[18px] border border-[#efe2cf] bg-white/82 px-6 py-5 text-center shadow-[0_8px_22px_rgba(83,55,24,0.10)]"
+                    >
+                      <p className="font-heading text-[42px] font-bold text-green-deep">
+                        {value}
+                      </p>
+                      <p className="font-body text-[13px] font-extrabold uppercase tracking-wide text-text-muted">
+                        {label}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-7 grid grid-cols-1 gap-5 md:grid-cols-2">
+                  <section className="rounded-[18px] border border-[#efe2cf] bg-beige px-7 py-6">
+                    <h3 className="font-heading text-[26px] font-bold text-green-deep">
+                      Children profiles
+                    </h3>
+                    <p className="mt-3 font-body text-[14px] font-bold leading-[1.5] text-text-dark">
+                      Soon you will be able to add each child, choose their grade
+                      and language, and find the best resources for them.
+                    </p>
+                  </section>
+                  <section className="rounded-[18px] border border-[#efe2cf] bg-white/82 px-7 py-6">
+                    <h3 className="font-heading text-[26px] font-bold text-green-deep">
+                      Purchases & downloads
+                    </h3>
+                    <p className="mt-3 font-body text-[14px] font-bold leading-[1.5] text-text-dark">
+                      Your purchased products and free resources will appear here
+                      once the shop is live.
+                    </p>
+                    <Link
+                      href="/products"
+                      className="mt-5 inline-flex font-body text-[14px] font-extrabold text-orange hover:underline"
+                    >
+                      View product plans
+                    </Link>
+                  </section>
+                </div>
+              </div>
+            ) : (
+              <div className="mt-8">
+                <p className="mb-7 max-w-[680px] font-body text-[16px] font-bold leading-[1.55] text-text-dark">
+                  Create an account to prepare for downloads, child profiles,
+                  purchases, and future Learn With Zara resources.
+                </p>
+                <AccountForms mode={mode} error={error} />
+              </div>
+            )}
+          </div>
+        </section>
+      </main>
+      <Footer />
+    </>
+  );
+}

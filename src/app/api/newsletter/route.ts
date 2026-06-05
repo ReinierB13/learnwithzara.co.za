@@ -2,25 +2,38 @@ import { NextResponse } from "next/server";
 import { getSql } from "@/lib/db";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const ALLOWED_SOURCES = new Set(["newsletter_form", "calendar_download"]);
+const SOURCE_MAP = new Map([
+  ["calendar_download", "calendar"],
+  ["newsletter_form", "footer"],
+  ["calendar", "calendar"],
+  ["account_signup", "account_signup"],
+  ["checkout", "checkout"],
+  ["footer", "footer"],
+]);
 
 async function ensureNewsletterSchema() {
   const sql = getSql();
 
   await sql`
-    CREATE TABLE IF NOT EXISTS newsletter_subscribers (
+    CREATE TABLE IF NOT EXISTS email_subscribers (
       id BIGSERIAL PRIMARY KEY,
       email TEXT NOT NULL,
-      source TEXT NOT NULL DEFAULT 'newsletter_form',
-      consented_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+      first_name TEXT,
+      source TEXT NOT NULL DEFAULT 'footer',
+      grade_interest TEXT,
+      is_subscribed BOOLEAN NOT NULL DEFAULT true,
       created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-      updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+      CONSTRAINT email_subscribers_source_check CHECK (source IN ('calendar', 'account_signup', 'checkout', 'footer')),
+      CONSTRAINT email_subscribers_grade_interest_check CHECK (
+        grade_interest IS NULL OR grade_interest IN ('R', '1', '2', '3', '4', '5', '6', '7')
+      )
     )
   `;
 
   await sql`
-    CREATE UNIQUE INDEX IF NOT EXISTS newsletter_subscribers_email_unique
-    ON newsletter_subscribers (lower(email))
+    CREATE UNIQUE INDEX IF NOT EXISTS email_subscribers_email_unique
+    ON email_subscribers (lower(email))
   `;
 }
 
@@ -44,10 +57,9 @@ export async function POST(request: Request) {
     typeof payload === "object" &&
     payload !== null &&
     "source" in payload &&
-    typeof payload.source === "string" &&
-    ALLOWED_SOURCES.has(payload.source)
-      ? payload.source
-      : "newsletter_form";
+    typeof payload.source === "string"
+      ? SOURCE_MAP.get(payload.source) || "footer"
+      : "footer";
 
   if (!EMAIL_PATTERN.test(email)) {
     return NextResponse.json(
@@ -62,10 +74,13 @@ export async function POST(request: Request) {
     await ensureNewsletterSchema();
 
     const subscribers = (await sql`
-      INSERT INTO newsletter_subscribers (email, source)
+      INSERT INTO email_subscribers (email, source)
       VALUES (${email}, ${source})
       ON CONFLICT ((lower(email)))
-      DO UPDATE SET updated_at = now(), source = EXCLUDED.source
+      DO UPDATE SET
+        updated_at = now(),
+        source = EXCLUDED.source,
+        is_subscribed = true
       RETURNING id, email, created_at, updated_at
     `) as Array<{
       id: number;
@@ -77,11 +92,11 @@ export async function POST(request: Request) {
     return NextResponse.json({
       subscriber: subscribers[0],
       downloadUrl:
-        source === "calendar_download"
+        source === "calendar"
           ? "/Calender_Free_download_QR_code.png"
           : null,
       downloadUrls:
-        source === "calendar_download"
+        source === "calendar"
           ? [
               "/Calender_Free_download_QR_code.png",
               "/Calender_Free_download_QR_code_2027.png",
