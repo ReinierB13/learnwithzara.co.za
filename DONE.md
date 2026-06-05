@@ -38,3 +38,4 @@
 - Added the admin catalog schema in `db/002_admin_catalog.sql`.
 - Added an admin-only dashboard link from `/account`.
 - Collapsed admin subject and grade forms behind plus controls.
+- Increased admin PDF upload body limit to 25 MB and added friendlier upload error messages.

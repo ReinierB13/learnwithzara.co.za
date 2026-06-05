@@ -224,64 +224,86 @@ export async function createProduct(formData: FormData) {
     redirectAdmin("error", "The selected subject or grade could not be found.");
   }
 
-  const blob = await put(`products/${slug}-${Date.now()}.pdf`, file, {
-    access: "public",
-    addRandomSuffix: true,
-  });
+  let fileUrl: string;
+
+  try {
+    const blob = await put(`products/${slug}-${Date.now()}.pdf`, file, {
+      access: "public",
+      addRandomSuffix: true,
+    });
+
+    fileUrl = blob.url;
+  } catch (error) {
+    console.error("Product PDF upload failed", error);
+    redirectAdmin(
+      "error",
+      "The PDF could not be uploaded. Please check the Vercel Blob token and try again.",
+    );
+  }
 
   const priceCents = isFree ? 0 : Math.round(priceRand * 100);
-  const products = (await sql`
-    INSERT INTO products (
-      title,
-      slug,
-      description,
-      grade,
-      subject,
-      product_type,
-      price_cents,
-      currency,
-      is_free,
-      is_active,
-      file_url,
-      thumbnail_url
-    )
-    VALUES (
-      ${title},
-      ${slug},
-      ${description},
-      ${grade},
-      ${subject},
-      ${productType},
-      ${priceCents},
-      'ZAR',
-      ${isFree},
-      ${checkboxValue(formData, "isActive")},
-      ${blob.url},
-      ${thumbnailUrl || null}
-    )
-    ON CONFLICT (slug)
-    DO UPDATE SET
-      title = EXCLUDED.title,
-      description = EXCLUDED.description,
-      grade = EXCLUDED.grade,
-      subject = EXCLUDED.subject,
-      product_type = EXCLUDED.product_type,
-      price_cents = EXCLUDED.price_cents,
-      currency = EXCLUDED.currency,
-      is_free = EXCLUDED.is_free,
-      is_active = EXCLUDED.is_active,
-      file_url = EXCLUDED.file_url,
-      thumbnail_url = EXCLUDED.thumbnail_url,
-      updated_at = now()
-    RETURNING id
-  `) as Array<{ id: number }>;
+  let products: Array<{ id: number }>;
 
-  if (Number.isInteger(courseId) && courseId > 0) {
-    await sql`
-      INSERT INTO course_products (course_id, product_id)
-      VALUES (${courseId}, ${products[0].id})
-      ON CONFLICT (course_id, product_id) DO NOTHING
-    `;
+  try {
+    products = (await sql`
+      INSERT INTO products (
+        title,
+        slug,
+        description,
+        grade,
+        subject,
+        product_type,
+        price_cents,
+        currency,
+        is_free,
+        is_active,
+        file_url,
+        thumbnail_url
+      )
+      VALUES (
+        ${title},
+        ${slug},
+        ${description},
+        ${grade},
+        ${subject},
+        ${productType},
+        ${priceCents},
+        'ZAR',
+        ${isFree},
+        ${checkboxValue(formData, "isActive")},
+        ${fileUrl},
+        ${thumbnailUrl || null}
+      )
+      ON CONFLICT (slug)
+      DO UPDATE SET
+        title = EXCLUDED.title,
+        description = EXCLUDED.description,
+        grade = EXCLUDED.grade,
+        subject = EXCLUDED.subject,
+        product_type = EXCLUDED.product_type,
+        price_cents = EXCLUDED.price_cents,
+        currency = EXCLUDED.currency,
+        is_free = EXCLUDED.is_free,
+        is_active = EXCLUDED.is_active,
+        file_url = EXCLUDED.file_url,
+        thumbnail_url = EXCLUDED.thumbnail_url,
+        updated_at = now()
+      RETURNING id
+    `) as Array<{ id: number }>;
+
+    if (Number.isInteger(courseId) && courseId > 0) {
+      await sql`
+        INSERT INTO course_products (course_id, product_id)
+        VALUES (${courseId}, ${products[0].id})
+        ON CONFLICT (course_id, product_id) DO NOTHING
+      `;
+    }
+  } catch (error) {
+    console.error("Product metadata save failed", error);
+    redirectAdmin(
+      "error",
+      "The PDF uploaded, but the product details could not be saved. Please check the product fields and database schema.",
+    );
   }
 
   revalidatePath("/admin");
