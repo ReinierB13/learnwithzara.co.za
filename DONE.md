@@ -31,3 +31,4 @@
 - Collapsed the add-child form behind a plus control in the Children profiles section.
 - Added a pencil edit control for updating saved child details.
 - Added the official support email `learnwithzara@outlook.com` to contact and policy pages.
+- Cleaned up FAQ contact formatting so email and website links sit beside their labels.

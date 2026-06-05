@@ -99,8 +99,6 @@ const FAQS = [
     question: "How can I contact Learn With Zara?",
     answer: [
       "You can contact us through the Contact page on our website or by email.",
-      "Email:",
-      "Website:",
       "We aim to respond to enquiries as quickly as possible.",
     ],
     websiteLink: true,
@@ -159,6 +157,7 @@ export default function FaqsPage() {
                     ))}
                     {faq.emailLink && (
                       <p>
+                        <strong>Email:</strong>{" "}
                         <a
                           href="mailto:learnwithzara@outlook.com"
                           className="text-orange underline hover:text-[#cf4f08]"
@@ -169,6 +168,7 @@ export default function FaqsPage() {
                     )}
                     {faq.websiteLink && (
                       <p>
+                        <strong>Website:</strong>{" "}
                         <Link
                           href="/"
                           className="text-orange underline hover:text-[#cf4f08]"
