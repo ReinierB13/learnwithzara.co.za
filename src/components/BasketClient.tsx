@@ -157,13 +157,22 @@ export default function BasketClient() {
             ZAR {(subtotalCents / 100).toFixed(2)}
           </span>
         </div>
-        <button
-          type="button"
-          disabled={items.length === 0}
-          className="mt-5 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-green-deep px-7 py-3 font-body text-[14px] font-extrabold text-white shadow-[0_10px_20px_rgba(36,76,45,0.22)] transition-colors hover:bg-[#1b3d23] disabled:cursor-not-allowed disabled:bg-green-soft"
-        >
-          Continue to payment test
-        </button>
+        {items.length > 0 ? (
+          <Link
+            href="/checkout-test"
+            className="mt-5 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-green-deep px-7 py-3 font-body text-[14px] font-extrabold text-white shadow-[0_10px_20px_rgba(36,76,45,0.22)] transition-colors hover:bg-[#1b3d23]"
+          >
+            Continue to payment test
+          </Link>
+        ) : (
+          <button
+            type="button"
+            disabled
+            className="mt-5 inline-flex min-h-12 w-full cursor-not-allowed items-center justify-center rounded-full bg-green-soft px-7 py-3 font-body text-[14px] font-extrabold text-white shadow-[0_10px_20px_rgba(36,76,45,0.22)]"
+          >
+            Continue to payment test
+          </button>
+        )}
         <button
           type="button"
           disabled={items.length === 0}

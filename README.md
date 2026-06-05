@@ -67,12 +67,15 @@ npm run lint
 | `src/app/admin/actions.ts` | Admin-only server actions for catalog creation and PDF uploads. |
 | `src/app/products-test/page.tsx` | Internal product testing page that lists uploaded products from Postgres. |
 | `src/app/basket/page.tsx` | Basket test page for stored cart items before payment simulation. |
+| `src/app/checkout-test/page.tsx` | Payment simulation page that creates paid test orders and previews customer email content. |
+| `src/app/checkout-test/actions.ts` | Server action that turns browser basket items into simulated paid orders. |
 | `src/lib/db.ts` | Neon database client helper. |
 | `src/lib/auth.ts` | Password hashing, signed session cookies, and current-user lookup. |
 | `src/lib/admin-catalog.ts` | Admin catalog schema guard and dashboard queries. |
 | `src/lib/r2.ts` | Cloudflare R2 upload helper for product PDFs. |
 | `src/components/ProductTestStore.tsx` | Client-side product basket prototype for testing checkout flow. |
 | `src/components/BasketClient.tsx` | Client-side basket review and quantity controls. |
+| `src/components/CheckoutTestClient.tsx` | Client-side checkout simulation form. |
 | `src/lib/basket.ts` | Browser basket storage helpers for the test checkout flow. |
 | `src/components/Footer.tsx` | Footer navigation and social placeholders. |
 | `db/001_core_schema.sql` | Core account, commerce, download, free resource, and email subscriber schema. |
