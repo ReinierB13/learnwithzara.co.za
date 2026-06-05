@@ -3,7 +3,13 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { getCurrentUser } from "@/lib/auth";
 import { getSql } from "@/lib/db";
-import { loginAccount, logoutAccount, registerAccount } from "./actions";
+import {
+  addChildProfile,
+  deleteChildProfile,
+  loginAccount,
+  logoutAccount,
+  registerAccount,
+} from "./actions";
 
 type AccountPageProps = {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
@@ -23,6 +29,29 @@ async function getAccountStats(userId: number) {
   }>;
 
   return rows[0] || { children_count: 0, orders_count: 0, downloads_count: 0 };
+}
+
+async function getChildren(userId: number) {
+  const sql = getSql();
+  return (await sql`
+    SELECT
+      id,
+      first_name,
+      last_name,
+      grade,
+      school_name,
+      language
+    FROM children
+    WHERE user_id = ${userId}
+    ORDER BY created_at DESC, id DESC
+  `) as Array<{
+    id: number;
+    first_name: string;
+    last_name: string;
+    grade: string;
+    school_name: string | null;
+    language: string;
+  }>;
 }
 
 function getStringParam(
@@ -54,6 +83,35 @@ function Field({
         autoComplete={autoComplete}
         className="min-h-12 rounded-[14px] border border-[#efe2cf] bg-white px-4 py-3 font-body text-[14px] font-bold text-text-dark outline-none transition-colors focus:border-orange"
       />
+    </label>
+  );
+}
+
+function SelectField({
+  label,
+  name,
+  defaultValue,
+  options,
+}: {
+  label: string;
+  name: string;
+  defaultValue: string;
+  options: Array<string>;
+}) {
+  return (
+    <label className="flex flex-col gap-2 font-body text-[13px] font-extrabold text-text-dark">
+      {label}
+      <select
+        name={name}
+        defaultValue={defaultValue}
+        className="min-h-12 rounded-[14px] border border-[#efe2cf] bg-white px-4 py-3 font-body text-[14px] font-bold text-text-dark outline-none transition-colors focus:border-orange"
+      >
+        {options.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
     </label>
   );
 }
@@ -163,8 +221,11 @@ export default async function AccountPage({ searchParams }: AccountPageProps) {
   const params = (await searchParams) || {};
   const mode = getStringParam(params, "mode") === "register" ? "register" : "login";
   const error = getStringParam(params, "error");
+  const childError = getStringParam(params, "childError");
+  const childSaved = getStringParam(params, "childSaved");
   const user = await getCurrentUser();
   const stats = user ? await getAccountStats(user.id) : null;
+  const children = user ? await getChildren(user.id) : [];
 
   return (
     <>
@@ -223,16 +284,104 @@ export default async function AccountPage({ searchParams }: AccountPageProps) {
                   ))}
                 </div>
 
-                <div className="mt-7 grid grid-cols-1 gap-5 md:grid-cols-2">
+                <div className="mt-7 grid grid-cols-1 gap-5 lg:grid-cols-[1.1fr_0.9fr]">
                   <section className="rounded-[18px] border border-[#efe2cf] bg-beige px-7 py-6">
-                    <h3 className="font-heading text-[26px] font-bold text-green-deep">
-                      Children profiles
-                    </h3>
-                    <p className="mt-3 font-body text-[14px] font-bold leading-[1.5] text-text-dark">
-                      Soon you will be able to add each child, choose their grade
-                      and language, and find the best resources for them.
-                    </p>
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                      <div>
+                        <h3 className="font-heading text-[26px] font-bold text-green-deep">
+                          Children profiles
+                        </h3>
+                        <p className="mt-2 font-body text-[14px] font-bold leading-[1.5] text-text-dark">
+                          Add each learner so we can recommend grade and language
+                          specific resources as the library grows.
+                        </p>
+                      </div>
+                      <span className="rounded-full bg-white px-4 py-2 text-center font-body text-[12px] font-extrabold text-orange">
+                        {children.length} saved
+                      </span>
+                    </div>
+
+                    {childError && (
+                      <p className="mt-5 rounded-[12px] bg-white px-4 py-3 font-body text-[13px] font-extrabold text-orange">
+                        {childError}
+                      </p>
+                    )}
+                    {childSaved && (
+                      <p className="mt-5 rounded-[12px] bg-white px-4 py-3 font-body text-[13px] font-extrabold text-green-deep">
+                        {childSaved}
+                      </p>
+                    )}
+
+                    <form action={addChildProfile} className="mt-6">
+                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        <Field label="First name" name="firstName" autoComplete="off" />
+                        <Field label="Last name" name="lastName" autoComplete="off" />
+                        <SelectField
+                          label="Grade"
+                          name="grade"
+                          defaultValue="R"
+                          options={["R", "1", "2", "3", "4", "5", "6", "7"]}
+                        />
+                        <SelectField
+                          label="Language"
+                          name="language"
+                          defaultValue="English"
+                          options={["English", "Afrikaans"]}
+                        />
+                      </div>
+                      <div className="mt-4">
+                        <label className="flex flex-col gap-2 font-body text-[13px] font-extrabold text-text-dark">
+                          School name optional
+                          <input
+                            name="schoolName"
+                            type="text"
+                            className="min-h-12 rounded-[14px] border border-[#efe2cf] bg-white px-4 py-3 font-body text-[14px] font-bold text-text-dark outline-none transition-colors focus:border-orange"
+                          />
+                        </label>
+                      </div>
+                      <button
+                        type="submit"
+                        className="mt-5 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-green-deep px-7 py-3 font-body text-[14px] font-extrabold text-white shadow-[0_10px_20px_rgba(36,76,45,0.24)] transition-colors hover:bg-[#1b3d23]"
+                      >
+                        Add child
+                      </button>
+                    </form>
+
+                    <div className="mt-7 flex flex-col gap-3">
+                      {children.length > 0 ? (
+                        children.map((child) => (
+                          <div
+                            key={child.id}
+                            className="flex flex-col gap-4 rounded-[14px] bg-white px-5 py-4 shadow-[0_6px_16px_rgba(83,55,24,0.08)] sm:flex-row sm:items-center sm:justify-between"
+                          >
+                            <div>
+                              <h4 className="font-heading text-[21px] font-bold text-green-deep">
+                                {child.first_name} {child.last_name}
+                              </h4>
+                              <p className="mt-1 font-body text-[13px] font-extrabold text-text-muted">
+                                Grade {child.grade} · {child.language}
+                                {child.school_name ? ` · ${child.school_name}` : ""}
+                              </p>
+                            </div>
+                            <form action={deleteChildProfile}>
+                              <input type="hidden" name="childId" value={child.id} />
+                              <button
+                                type="submit"
+                                className="inline-flex min-h-10 items-center justify-center rounded-full border border-[#efe2cf] px-5 py-2 font-body text-[12px] font-extrabold text-orange transition-colors hover:border-orange"
+                              >
+                                Remove
+                              </button>
+                            </form>
+                          </div>
+                        ))
+                      ) : (
+                        <p className="rounded-[14px] bg-white px-5 py-4 font-body text-[14px] font-bold leading-[1.5] text-text-muted">
+                          No children added yet.
+                        </p>
+                      )}
+                    </div>
                   </section>
+
                   <section className="rounded-[18px] border border-[#efe2cf] bg-white/82 px-7 py-6">
                     <h3 className="font-heading text-[26px] font-bold text-green-deep">
                       Purchases & downloads

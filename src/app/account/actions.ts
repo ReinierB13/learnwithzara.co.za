@@ -1,10 +1,18 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { clearSession, createSession, hashPassword, verifyPassword } from "@/lib/auth";
+import {
+  clearSession,
+  createSession,
+  getCurrentUser,
+  hashPassword,
+  verifyPassword,
+} from "@/lib/auth";
 import { getSql } from "@/lib/db";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const GRADES = new Set(["R", "1", "2", "3", "4", "5", "6", "7"]);
+const LANGUAGES = new Set(["English", "Afrikaans"]);
 
 function formValue(formData: FormData, key: string) {
   const value = formData.get(key);
@@ -13,6 +21,10 @@ function formValue(formData: FormData, key: string) {
 
 function redirectWithError(mode: "login" | "register", message: string): never {
   redirect(`/account?mode=${mode}&error=${encodeURIComponent(message)}`);
+}
+
+function redirectWithChildMessage(type: "childError" | "childSaved", message: string): never {
+  redirect(`/account?${type}=${encodeURIComponent(message)}`);
 }
 
 export async function registerAccount(formData: FormData) {
@@ -96,4 +108,77 @@ export async function loginAccount(formData: FormData) {
 export async function logoutAccount() {
   await clearSession();
   redirect("/account");
+}
+
+export async function addChildProfile(formData: FormData) {
+  const user = await getCurrentUser();
+
+  if (!user) {
+    redirect("/account?mode=login&error=Please sign in to add a child.");
+  }
+
+  const firstName = formValue(formData, "firstName");
+  const lastName = formValue(formData, "lastName");
+  const grade = formValue(formData, "grade");
+  const language = formValue(formData, "language");
+  const schoolName = formValue(formData, "schoolName");
+
+  if (!firstName || !lastName) {
+    redirectWithChildMessage("childError", "Please enter the child's first and last name.");
+  }
+
+  if (!GRADES.has(grade)) {
+    redirectWithChildMessage("childError", "Please choose a valid grade.");
+  }
+
+  if (!LANGUAGES.has(language)) {
+    redirectWithChildMessage("childError", "Please choose a valid language.");
+  }
+
+  const sql = getSql();
+
+  await sql`
+    INSERT INTO children (
+      user_id,
+      first_name,
+      last_name,
+      grade,
+      school_name,
+      language
+    )
+    VALUES (
+      ${user.id},
+      ${firstName},
+      ${lastName},
+      ${grade},
+      ${schoolName || null},
+      ${language}
+    )
+  `;
+
+  redirectWithChildMessage("childSaved", `${firstName} has been added.`);
+}
+
+export async function deleteChildProfile(formData: FormData) {
+  const user = await getCurrentUser();
+
+  if (!user) {
+    redirect("/account?mode=login&error=Please sign in to manage children.");
+  }
+
+  const childId = Number(formValue(formData, "childId"));
+
+  if (!Number.isInteger(childId) || childId <= 0) {
+    redirectWithChildMessage("childError", "We could not find that child profile.");
+  }
+
+  const sql = getSql();
+
+  await sql`
+    DELETE FROM children
+    WHERE id = ${childId}
+      AND user_id = ${user.id}
+  `;
+
+  redirectWithChildMessage("childSaved", "Child profile removed.");
 }

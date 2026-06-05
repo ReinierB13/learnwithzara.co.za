@@ -27,3 +27,4 @@
 - Updated newsletter signup storage to use the new `email_subscribers` table.
 - Added account registration, sign in, sign out, and a basic account dashboard shell.
 - Updated the header My Account links to open `/account`.
+- Added child profile creation, listing, and removal inside `/account`.
