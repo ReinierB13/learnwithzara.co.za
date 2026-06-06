@@ -38,24 +38,44 @@ export default function Hero() {
             Created by experienced South African teachers.
           </p>
 
-          <Link
-            href="#products"
-            className="mt-7 inline-flex items-center gap-3 rounded-full bg-orange px-7 py-4 font-body text-[16px] font-extrabold text-white shadow-[0_12px_22px_rgba(233,91,11,0.24)] transition-all hover:bg-[#cf4f08] hover:shadow-lg"
-          >
-            Explore Our Products
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              className="h-5 w-5"
-              stroke="currentColor"
-              strokeWidth="2.4"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+          <div className="mt-7 flex flex-wrap gap-3">
+            <Link
+              href="#products"
+              className="inline-flex items-center gap-3 rounded-full bg-orange px-7 py-4 font-body text-[16px] font-extrabold text-white shadow-[0_12px_22px_rgba(233,91,11,0.24)] transition-all hover:bg-[#cf4f08] hover:shadow-lg"
             >
-              <path d="M5 12h14" />
-              <path d="m13 6 6 6-6 6" />
-            </svg>
-          </Link>
+              Explore Our Products
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                className="h-5 w-5"
+                stroke="currentColor"
+                strokeWidth="2.4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M5 12h14" />
+                <path d="m13 6 6 6-6 6" />
+              </svg>
+            </Link>
+            <Link
+              href="/products-test"
+              className="inline-flex items-center gap-3 rounded-full border-2 border-green-deep bg-white/86 px-7 py-[14px] font-body text-[16px] font-extrabold text-green-deep shadow-[0_10px_18px_rgba(36,76,45,0.14)] transition-all hover:bg-green-deep hover:text-white hover:shadow-lg"
+            >
+              Test Products
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                className="h-5 w-5"
+                stroke="currentColor"
+                strokeWidth="2.4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M5 12h14" />
+                <path d="m13 6 6 6-6 6" />
+              </svg>
+            </Link>
+          </div>
         </div>
 
         <Image
