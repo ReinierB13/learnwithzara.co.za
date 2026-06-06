@@ -6,7 +6,7 @@ const QUICK_LINKS = [
   { label: "About Zara", href: "/#about" },
   { label: "Our Products", href: "/#products" },
   { label: "For Parents", href: "/parents" },
-  { label: "Contact", href: "/#contact" },
+  { label: "Contact", href: "mailto:learnwithzara@outlook.com" },
 ];
 
 const HELP_LINKS = [
