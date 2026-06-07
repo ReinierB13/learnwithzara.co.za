@@ -4,13 +4,14 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { getBasketItemCount, readBasket } from "@/lib/basket";
+import ContactButton from "@/components/ContactButton";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
   { label: "About Zara", href: "/#about" },
   { label: "Our Products", href: "/#products" },
   { label: "For Parents", href: "/parents" },
-  { label: "Contact", href: "mailto:learnwithzara@outlook.com" },
+  { label: "Contact", href: "contact" },
 ];
 
 export default function Header() {
@@ -59,19 +60,28 @@ export default function Header() {
         </Link>
 
         <nav className="hidden items-center gap-10 md:flex">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.label}
-              href={link.href}
-              className={`relative font-body text-[15px] font-extrabold text-text-dark transition-colors hover:text-orange ${
-                link.label === "Home"
-                  ? "after:absolute after:-bottom-2 after:left-0 after:right-0 after:h-0.5 after:bg-orange"
-                  : ""
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
+          {NAV_LINKS.map((link) =>
+            link.href === "contact" ? (
+              <ContactButton
+                key={link.label}
+                className="relative bg-transparent p-0 font-body text-[15px] font-extrabold text-text-dark transition-colors hover:text-orange"
+              >
+                {link.label}
+              </ContactButton>
+            ) : (
+              <Link
+                key={link.label}
+                href={link.href}
+                className={`relative font-body text-[15px] font-extrabold text-text-dark transition-colors hover:text-orange ${
+                  link.label === "Home"
+                    ? "after:absolute after:-bottom-2 after:left-0 after:right-0 after:h-0.5 after:bg-orange"
+                    : ""
+                }`}
+              >
+                {link.label}
+              </Link>
+            ),
+          )}
         </nav>
 
         <div className="ml-auto flex items-center gap-5">
@@ -124,16 +134,26 @@ export default function Header() {
 
       {menuOpen && (
         <div className="flex flex-col gap-4 border-t border-beige bg-cream/95 px-6 py-4 backdrop-blur-sm md:hidden">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.label}
-              href={link.href}
-              className="font-body text-sm font-extrabold text-text-dark transition-colors hover:text-orange"
-              onClick={() => setMenuOpen(false)}
-            >
-              {link.label}
-            </Link>
-          ))}
+          {NAV_LINKS.map((link) =>
+            link.href === "contact" ? (
+              <ContactButton
+                key={link.label}
+                className="bg-transparent p-0 text-left font-body text-sm font-extrabold text-text-dark transition-colors hover:text-orange"
+                onClick={() => setMenuOpen(false)}
+              >
+                {link.label}
+              </ContactButton>
+            ) : (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="font-body text-sm font-extrabold text-text-dark transition-colors hover:text-orange"
+                onClick={() => setMenuOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ),
+          )}
           <Link
             href="/account"
             className="inline-flex items-center justify-center rounded-full bg-orange px-4 py-2 font-body text-sm font-extrabold text-white transition-colors hover:bg-[#c94f03]"

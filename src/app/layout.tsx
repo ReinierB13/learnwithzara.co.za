@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { Fredoka, Nunito } from "next/font/google";
+import ContactModal from "@/components/ContactModal";
 import "./globals.css";
 
 const fredoka = Fredoka({
@@ -33,6 +34,7 @@ export default function RootLayout({
     <html lang="en" className={`${fredoka.variable} ${nunito.variable}`}>
       <body>
         {children}
+        <ContactModal />
         <Analytics />
       </body>
     </html>

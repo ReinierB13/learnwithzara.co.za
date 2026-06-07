@@ -1,12 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
+import ContactButton from "@/components/ContactButton";
 
 const QUICK_LINKS = [
   { label: "Home", href: "/" },
   { label: "About Zara", href: "/#about" },
   { label: "Our Products", href: "/#products" },
   { label: "For Parents", href: "/parents" },
-  { label: "Contact", href: "mailto:learnwithzara@outlook.com" },
+  { label: "Contact", href: "contact" },
 ];
 
 const HELP_LINKS = [
@@ -55,12 +56,18 @@ export default function Footer() {
             <ul className="flex flex-col gap-0.5">
               {QUICK_LINKS.map((link) => (
                 <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="font-body text-[11px] font-semibold text-white/90 transition-colors hover:text-white hover:underline"
-                  >
-                    {link.label}
-                  </Link>
+                  {link.href === "contact" ? (
+                    <ContactButton className="bg-transparent p-0 text-left font-body text-[11px] font-semibold text-white/90 transition-colors hover:text-white hover:underline">
+                      {link.label}
+                    </ContactButton>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      className="font-body text-[11px] font-semibold text-white/90 transition-colors hover:text-white hover:underline"
+                    >
+                      {link.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
