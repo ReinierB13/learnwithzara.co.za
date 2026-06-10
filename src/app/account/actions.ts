@@ -180,7 +180,7 @@ export async function deleteChildProfile(formData: FormData) {
       AND user_id = ${user.id}
   `;
 
-  redirectWithChildMessage("childSaved", "Child profile removed.");
+  redirectWithChildMessage("childSaved", "Saved child details have been removed.");
 }
 
 export async function updateChildProfile(formData: FormData) {

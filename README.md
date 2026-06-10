@@ -98,9 +98,13 @@ R2_ACCESS_KEY_ID=cloudflare-r2-access-key
 R2_SECRET_ACCESS_KEY=cloudflare-r2-secret-key
 R2_BUCKET_NAME=cloudflare-r2-bucket-name
 R2_PUBLIC_URL=https://pub-68019f01cee142348aa3e9e8cbf6b13b.r2.dev
+
+RESEND_API_KEY=resend-api-key
+CONTACT_FROM_EMAIL="Learn With Zara <contact@your-verified-domain.com>"
+CONTACT_TO_EMAIL=learnwithzara@outlook.com
 ```
 
-Set the same `DATABASE_URL`, `AUTH_SECRET`, and R2 environment variables in the production hosting environment before deploying account, newsletter, or admin upload changes.
+Set the same `DATABASE_URL`, `AUTH_SECRET`, R2, and contact email environment variables in the production hosting environment before deploying account, newsletter, contact, or admin upload changes.
 
 ## Database
 

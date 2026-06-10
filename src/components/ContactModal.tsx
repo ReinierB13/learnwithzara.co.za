@@ -7,12 +7,19 @@ const SUPPORT_EMAIL = "learnwithzara@outlook.com";
 
 export default function ContactModal() {
   const [open, setOpen] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [feedback, setFeedback] = useState("");
   const nameId = useId();
   const emailId = useId();
   const messageId = useId();
+  const companyId = useId();
 
   useEffect(() => {
-    const openContact = () => setOpen(true);
+    const openContact = () => {
+      setStatus("idle");
+      setFeedback("");
+      setOpen(true);
+    };
     window.addEventListener("learn-with-zara-contact", openContact);
     return () => window.removeEventListener("learn-with-zara-contact", openContact);
   }, []);
@@ -30,26 +37,44 @@ export default function ContactModal() {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [open]);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const formData = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const formData = new FormData(form);
     const name = String(formData.get("name") || "").trim();
     const email = String(formData.get("email") || "").trim();
     const message = String(formData.get("message") || "").trim();
-    const subject = `Learn With Zara contact from ${name}`;
-    const body = [
-      `Name: ${name}`,
-      `Email: ${email}`,
-      "",
-      "Message:",
-      message,
-    ].join("\n");
+    const company = String(formData.get("company") || "").trim();
 
-    window.location.href = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(
-      subject,
-    )}&body=${encodeURIComponent(body)}`;
-    setOpen(false);
+    setStatus("sending");
+    setFeedback("");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, message, company }),
+      });
+      const result = (await response.json().catch(() => ({}))) as { error?: string };
+
+      if (!response.ok) {
+        throw new Error(result.error || "We could not send your message right now.");
+      }
+
+      form.reset();
+      setStatus("sent");
+      setFeedback("Thank you. Your message has been sent.");
+    } catch (error) {
+      setStatus("error");
+      setFeedback(
+        error instanceof Error
+          ? error.message
+          : "We could not send your message right now.",
+      );
+    }
   }
 
   if (!open) return null;
@@ -89,6 +114,17 @@ export default function ContactModal() {
         </div>
 
         <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-4">
+          <label htmlFor={companyId} className="hidden">
+            Company
+            <input
+              id={companyId}
+              name="company"
+              type="text"
+              tabIndex={-1}
+              autoComplete="off"
+            />
+          </label>
+
           <label
             htmlFor={nameId}
             className="flex flex-col gap-1.5 font-body text-sm font-extrabold text-text-dark"
@@ -143,11 +179,23 @@ export default function ContactModal() {
             </button>
             <button
               type="submit"
-              className="min-h-12 rounded-full bg-orange px-7 py-3 font-body text-sm font-extrabold text-white shadow-[0_10px_20px_rgba(233,91,11,0.22)] transition-colors hover:bg-[#cf4f08]"
+              disabled={status === "sending"}
+              className="min-h-12 rounded-full bg-orange px-7 py-3 font-body text-sm font-extrabold text-white shadow-[0_10px_20px_rgba(233,91,11,0.22)] transition-colors hover:bg-[#cf4f08] disabled:cursor-not-allowed disabled:opacity-70"
             >
-              Send Message
+              {status === "sending" ? "Sending..." : "Send Message"}
             </button>
           </div>
+
+          {feedback && (
+            <p
+              className={`font-body text-sm font-bold ${
+                status === "sent" ? "text-green-deep" : "text-orange"
+              }`}
+              role="status"
+            >
+              {feedback}
+            </p>
+          )}
         </form>
       </div>
     </div>

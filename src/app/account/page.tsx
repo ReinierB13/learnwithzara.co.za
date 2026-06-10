@@ -322,6 +322,7 @@ export default async function AccountPage({ searchParams }: AccountPageProps) {
                           <p className="mt-2 font-body text-[14px] font-bold leading-[1.5] text-text-dark">
                             Add each learner so we can recommend grade and
                             language specific resources as the library grows.
+                            You can remove saved child details at any time.
                           </p>
                         </div>
                         <div className="flex items-center gap-3">
@@ -471,9 +472,10 @@ export default async function AccountPage({ searchParams }: AccountPageProps) {
                                 <input type="hidden" name="childId" value={child.id} />
                                 <button
                                   type="submit"
+                                  aria-label={`Remove saved details for ${child.first_name}`}
                                   className="inline-flex min-h-10 items-center justify-center rounded-full border border-[#efe2cf] px-5 py-2 font-body text-[12px] font-extrabold text-orange transition-colors hover:border-orange"
                                 >
-                                  Remove
+                                  Remove child details
                                 </button>
                               </form>
                             </div>
