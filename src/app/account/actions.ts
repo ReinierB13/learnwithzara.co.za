@@ -13,6 +13,8 @@ import { getSql } from "@/lib/db";
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const GRADES = new Set(["R", "1", "2", "3", "4", "5", "6", "7"]);
 const LANGUAGES = new Set(["English", "Afrikaans"]);
+const CHILD_REMOVAL_CONFIRMATION = "REMOVE";
+const ACCOUNT_REMOVAL_CONFIRMATION = "REMOVE";
 
 function formValue(formData: FormData, key: string) {
   const value = formData.get(key);
@@ -25,6 +27,29 @@ function redirectWithError(mode: "login" | "register", message: string): never {
 
 function redirectWithChildMessage(type: "childError" | "childSaved", message: string): never {
   redirect(`/account?${type}=${encodeURIComponent(message)}`);
+}
+
+function maskName(value: string) {
+  const trimmed = value.trim();
+
+  if (trimmed.length <= 1) {
+    return "*";
+  }
+
+  if (trimmed.length === 2) {
+    return `${trimmed[0]}*`;
+  }
+
+  return `${trimmed[0]}${"*".repeat(trimmed.length - 2)}${trimmed[trimmed.length - 1]}`;
+}
+
+function maskEmail(email: string, userId: number) {
+  const [local, domain] = email.toLowerCase().split("@");
+  const visibleStart = local.slice(0, Math.min(4, local.length));
+  const visibleEnd = local.length > 6 ? local.slice(-Math.min(5, local.length - 4)) : "";
+  const maskedLocal = `${visibleStart}****${visibleEnd}`;
+
+  return `${maskedLocal}.removed-${userId}@${domain}`;
 }
 
 export async function registerAccount(formData: FormData) {
@@ -110,6 +135,59 @@ export async function logoutAccount() {
   redirect("/account");
 }
 
+export async function removeAccountDetails(formData: FormData) {
+  const user = await getCurrentUser();
+
+  if (!user) {
+    redirect("/account?mode=login&error=Please sign in to manage your account.");
+  }
+
+  if (user.role === "ADMIN") {
+    redirect("/account?accountError=Admin accounts cannot be removed from this page.");
+  }
+
+  if (formValue(formData, "confirm") !== ACCOUNT_REMOVAL_CONFIRMATION) {
+    redirect(
+      `/account?accountError=${encodeURIComponent(
+        "Please type REMOVE to confirm account detail removal.",
+      )}`,
+    );
+  }
+
+  const sql = getSql();
+  const anonymizedEmail = maskEmail(user.email, user.id);
+  const anonymizedFirstName = maskName(user.firstName);
+  const anonymizedLastName = maskName(user.lastName);
+  const disabledPassword = hashPassword(`removed-account-${user.id}-${Date.now()}`);
+
+  await sql`DELETE FROM children WHERE user_id = ${user.id}`;
+  await sql`DELETE FROM addresses WHERE user_id = ${user.id}`;
+
+  await sql`
+    UPDATE email_subscribers
+    SET
+      email = ${anonymizedEmail},
+      first_name = ${anonymizedFirstName},
+      is_subscribed = false,
+      updated_at = now()
+    WHERE lower(email) = lower(${user.email})
+  `;
+
+  await sql`
+    UPDATE users
+    SET
+      email = ${anonymizedEmail},
+      first_name = ${anonymizedFirstName},
+      last_name = ${anonymizedLastName},
+      password_hash = ${disabledPassword},
+      updated_at = now()
+    WHERE id = ${user.id}
+  `;
+
+  await clearSession();
+  redirect("/account?message=Your account details have been removed.");
+}
+
 export async function addChildProfile(formData: FormData) {
   const user = await getCurrentUser();
 
@@ -170,6 +248,13 @@ export async function deleteChildProfile(formData: FormData) {
 
   if (!Number.isInteger(childId) || childId <= 0) {
     redirectWithChildMessage("childError", "We could not find that child profile.");
+  }
+
+  if (formValue(formData, "confirm") !== CHILD_REMOVAL_CONFIRMATION) {
+    redirectWithChildMessage(
+      "childError",
+      "Please type REMOVE to confirm removing the saved child details.",
+    );
   }
 
   const sql = getSql();

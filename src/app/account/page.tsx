@@ -8,6 +8,7 @@ import {
   deleteChildProfile,
   loginAccount,
   logoutAccount,
+  removeAccountDetails,
   registerAccount,
   updateChildProfile,
 } from "./actions";
@@ -242,6 +243,8 @@ export default async function AccountPage({ searchParams }: AccountPageProps) {
   const error = getStringParam(params, "error");
   const childError = getStringParam(params, "childError");
   const childSaved = getStringParam(params, "childSaved");
+  const accountError = getStringParam(params, "accountError");
+  const message = getStringParam(params, "message");
   const user = await getCurrentUser();
   const stats = user ? await getAccountStats(user.id) : null;
   const children = user ? await getChildren(user.id) : [];
@@ -256,6 +259,11 @@ export default async function AccountPage({ searchParams }: AccountPageProps) {
               My Account
             </h1>
             <div className="mt-5 h-[3px] w-20 rounded-full bg-orange" />
+            {message && (
+              <p className="mt-7 rounded-[14px] bg-white px-5 py-4 font-body text-[14px] font-extrabold text-green-deep">
+                {message}
+              </p>
+            )}
 
             {user && stats ? (
               <div className="mt-8">
@@ -468,8 +476,20 @@ export default async function AccountPage({ searchParams }: AccountPageProps) {
                                   </form>
                                 </div>
                               </details>
-                              <form action={deleteChildProfile}>
+                              <form
+                                action={deleteChildProfile}
+                                className="flex flex-col gap-2 sm:items-end"
+                              >
                                 <input type="hidden" name="childId" value={child.id} />
+                                <label className="flex flex-col gap-1 font-body text-[11px] font-extrabold text-text-muted">
+                                  Type REMOVE to confirm
+                                  <input
+                                    name="confirm"
+                                    type="text"
+                                    autoComplete="off"
+                                    className="h-10 w-full rounded-[12px] border border-[#efe2cf] bg-white px-3 font-body text-[12px] font-bold text-text-dark outline-none transition-colors focus:border-orange sm:w-[178px]"
+                                  />
+                                </label>
                                 <button
                                   type="submit"
                                   aria-label={`Remove saved details for ${child.first_name}`}
@@ -505,6 +525,65 @@ export default async function AccountPage({ searchParams }: AccountPageProps) {
                     </Link>
                   </section>
                 </div>
+
+                <section className="mt-7 rounded-[18px] border border-[#efe2cf] bg-white/82 px-7 py-6 shadow-[0_8px_22px_rgba(83,55,24,0.10)]">
+                  <details className="group">
+                    <summary className="flex cursor-pointer list-none flex-col gap-3 sm:flex-row sm:items-start sm:justify-between [&::-webkit-details-marker]:hidden">
+                      <div>
+                        <h3 className="font-heading text-[26px] font-bold text-green-deep">
+                          Account privacy
+                        </h3>
+                        <p className="mt-2 max-w-[720px] font-body text-[14px] font-bold leading-[1.5] text-text-dark">
+                          Remove your saved account details when you no longer
+                          want Learn With Zara to keep your personal profile
+                          information.
+                        </p>
+                      </div>
+                      <span className="flex h-11 w-11 items-center justify-center rounded-full bg-beige text-[28px] font-bold leading-none text-orange transition-colors group-hover:bg-[#f3dcc0]">
+                        <span className="mb-1 group-open:hidden">+</span>
+                        <span className="hidden group-open:block">-</span>
+                      </span>
+                    </summary>
+
+                    <div className="mt-6 rounded-[16px] border border-[#efe2cf] bg-beige px-5 py-5">
+                      <p className="font-body text-[14px] font-bold leading-[1.55] text-text-dark">
+                        This will anonymize your name and email address, remove
+                        saved child details and addresses, unsubscribe your email
+                        record, and sign you out. Order and download records may
+                        remain for business records, but they will no longer show
+                        your personal account details.
+                      </p>
+                      {accountError && (
+                        <p className="mt-4 rounded-[12px] bg-white px-4 py-3 font-body text-[13px] font-extrabold text-orange">
+                          {accountError}
+                        </p>
+                      )}
+                      {user.role === "ADMIN" ? (
+                        <p className="mt-4 rounded-[12px] bg-white px-4 py-3 font-body text-[13px] font-extrabold text-orange">
+                          Admin accounts cannot be removed from this page.
+                        </p>
+                      ) : (
+                        <form action={removeAccountDetails} className="mt-5">
+                          <label className="flex max-w-[360px] flex-col gap-2 font-body text-[13px] font-extrabold text-text-dark">
+                            Type REMOVE to confirm
+                            <input
+                              name="confirm"
+                              type="text"
+                              autoComplete="off"
+                              className="min-h-12 rounded-[14px] border border-[#efe2cf] bg-white px-4 py-3 font-body text-[14px] font-bold text-text-dark outline-none transition-colors focus:border-orange"
+                            />
+                          </label>
+                          <button
+                            type="submit"
+                            className="mt-4 inline-flex min-h-12 items-center justify-center rounded-full border border-orange px-7 py-3 font-body text-[14px] font-extrabold text-orange transition-colors hover:bg-orange hover:text-white"
+                          >
+                            Remove my account details
+                          </button>
+                        </form>
+                      )}
+                    </div>
+                  </details>
+                </section>
               </div>
             ) : (
               <div className="mt-8">
